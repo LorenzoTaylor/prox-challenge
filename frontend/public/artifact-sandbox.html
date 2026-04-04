@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Artifact Sandbox</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.8.0/Recharts.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
+  <style>
+    body { margin: 0; padding: 16px; font-family: system-ui, sans-serif; }
+    #root { width: 100%; }
+    #error { color: red; padding: 16px; white-space: pre-wrap; font-family: monospace; font-size: 12px; }
+    #mermaid-container { padding: 8px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <div id="error" style="display:none"></div>
+  <div id="mermaid-container" style="display:none"></div>
+
+  <script>
+    // Receive artifact content from parent via postMessage
+    window.addEventListener('message', (event) => {
+      const { type, content, artifactType } = event.data
+      if (type !== 'RENDER_ARTIFACT') return
+
+      const errorEl = document.getElementById('error')
+      const rootEl = document.getElementById('root')
+      const mermaidEl = document.getElementById('mermaid-container')
+
+      errorEl.style.display = 'none'
+      rootEl.style.display = 'none'
+      mermaidEl.style.display = 'none'
+
+      try {
+        if (artifactType === 'application/vnd.ant.react') {
+          renderReact(content, rootEl, errorEl)
+        } else if (artifactType === 'application/vnd.ant.mermaid') {
+          renderMermaid(content, mermaidEl)
+        } else if (artifactType === 'image/svg+xml') {
+          renderSVG(content, rootEl)
+        } else if (artifactType === 'text/html') {
+          renderHTML(content, rootEl)
+        }
+      } catch (err) {
+        showError(err.message, errorEl)
+      }
+    })
+
+    function renderReact(code, rootEl, errorEl) {
+      try {
+        // Make React and hooks available in the component scope
+        const { useState, useEffect, useCallback, useMemo, useRef, useReducer } = React
+        const Recharts = window.Recharts || {}
+
+        // Transpile JSX
+        const transpiled = Babel.transform(code, {
+          presets: ['react'],
+          plugins: []
+        }).code
+
+        // Replace import statements (not supported in browser eval)
+        const sanitized = transpiled
+          .replace(/import\s+.*?from\s+['"]react['"]/g, '')
+          .replace(/import\s+.*?from\s+['"]recharts['"]/g, '')
+          .replace(/export\s+default\s+/, 'window.__ArtifactComponent = ')
+
+        // eslint-disable-next-line no-new-func
+        const fn = new Function(
+          'React', 'useState', 'useEffect', 'useCallback', 'useMemo', 'useRef', 'useReducer', 'Recharts',
+          sanitized + '\n; return window.__ArtifactComponent'
+        )
+
+        const Component = fn(React, useState, useEffect, useCallback, useMemo, useRef, useReducer, Recharts)
+
+        if (!Component) {
+          throw new Error('No default export found in artifact')
+        }
+
+        rootEl.style.display = 'block'
+        const root = ReactDOM.createRoot(rootEl)
+        root.render(React.createElement(Component))
+      } catch (err) {
+        showError(err.message, errorEl)
+      }
+    }
+
+    function renderMermaid(code, container) {
+      container.style.display = 'block'
+      container.innerHTML = `<div class="mermaid">${code}</div>`
+      mermaid.initialize({ startOnLoad: false, theme: 'default' })
+      mermaid.run({ nodes: container.querySelectorAll('.mermaid') })
+    }
+
+    function renderSVG(code, rootEl) {
+      rootEl.style.display = 'block'
+      rootEl.innerHTML = code
+    }
+
+    function renderHTML(code, rootEl) {
+      rootEl.style.display = 'block'
+      rootEl.innerHTML = code
+    }
+
+    function showError(msg, errorEl) {
+      errorEl.style.display = 'block'
+      errorEl.textContent = 'Render error: ' + msg
+    }
+
+    // Signal ready to parent
+    window.parent.postMessage({ type: 'SANDBOX_READY' }, '*')
+  </script>
+</body>
+</html>
