@@ -1,7 +1,12 @@
 use axum::{Router, routing::get, Json};
 use base64::{Engine, engine::general_purpose::STANDARD};
 use serde_json::json;
+use std::collections::HashMap;
+use std::net::{IpAddr, SocketAddr};
 use std::sync::Arc;
+use std::sync::atomic::AtomicU32;
+use std::time::{Duration, Instant};
+use tokio::sync::{Mutex, Semaphore};
 use tower_http::cors::{CorsLayer, Any};
 use tower_http::services::ServeDir;
 
@@ -21,11 +26,46 @@ pub struct PageMeta {
     pub tags: Vec<String>,
 }
 
+/// Sliding-window per-IP rate limiter (no external crates).
+pub struct RateLimiter {
+    windows: Mutex<HashMap<IpAddr, (u32, Instant)>>,
+    max_per_minute: u32,
+}
+
+impl RateLimiter {
+    pub fn new(max_per_minute: u32) -> Self {
+        Self { windows: Mutex::new(HashMap::new()), max_per_minute }
+    }
+
+    /// Returns true if the request is allowed, false if the IP is over limit.
+    pub async fn check(&self, ip: IpAddr) -> bool {
+        let mut map = self.windows.lock().await;
+        let now = Instant::now();
+        let entry = map.entry(ip).or_insert((0, now));
+        if now.duration_since(entry.1) >= Duration::from_secs(60) {
+            *entry = (1, now);
+            true
+        } else if entry.0 < self.max_per_minute {
+            entry.0 += 1;
+            true
+        } else {
+            false
+        }
+    }
+}
+
 pub struct AppState {
     pub api_key: String,
+    pub fal_key: Option<String>,
     pub images: Vec<PageImage>,
     pub page_meta: Vec<PageMeta>,
     pub structured_facts: Option<String>,
+    /// Max 2 in-flight requests at once.
+    pub semaphore: Arc<Semaphore>,
+    /// Lifetime request counter — hard cap for demo cost control.
+    pub request_count: Arc<AtomicU32>,
+    /// Per-IP sliding window: 10 requests / minute.
+    pub rate_limiter: Arc<RateLimiter>,
 }
 
 impl AppState {
@@ -250,10 +290,23 @@ async fn main() -> anyhow::Result<()> {
 
     let api_key = std::env::var("ANTHROPIC_API_KEY")
         .expect("ANTHROPIC_API_KEY must be set");
+    let fal_key = std::env::var("FAL_KEY").ok();
+    if fal_key.is_none() {
+        println!("Note: FAL_KEY not set — image generation disabled");
+    }
 
     let images = load_page_images().await;
     let (structured_facts, page_meta) = load_structured_facts().await;
-    let state = Arc::new(AppState { api_key, images, page_meta, structured_facts });
+    let state = Arc::new(AppState {
+        api_key,
+        fal_key,
+        images,
+        page_meta,
+        structured_facts,
+        semaphore: Arc::new(Semaphore::new(2)),
+        request_count: Arc::new(AtomicU32::new(0)),
+        rate_limiter: Arc::new(RateLimiter::new(10)),
+    });
 
     let cors = CorsLayer::new()
         .allow_origin(Any)
@@ -268,7 +321,7 @@ async fn main() -> anyhow::Result<()> {
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3001").await?;
     println!("Backend listening on http://localhost:3001");
-    axum::serve(listener, app).await?;
+    axum::serve(listener, app.into_make_service_with_connect_info::<SocketAddr>()).await?;
 
     Ok(())
 }

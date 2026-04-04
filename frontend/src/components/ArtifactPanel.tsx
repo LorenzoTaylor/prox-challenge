@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import type { Artifact } from '../types'
 
 interface Annotation {
@@ -34,41 +34,70 @@ function ImageSurface({ artifact }: { artifact: Artifact }) {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       for (const ann of annotations) {
-        const cx = ann.x * canvas.width
-        const cy = ann.y * canvas.height
-        const r = 14
+        const tx = ann.x * canvas.width   // target point
+        const ty = ann.y * canvas.height
+        const r = 13
+        const offset = 44
 
-        // Circle
+        // Push badge away from image center so it never obscures the target
+        const pushRight = ann.x >= 0.5
+        const pushDown = ann.y >= 0.5
+        const bx = tx + (pushRight ? offset : -offset)
+        const by = ty + (pushDown ? offset : -offset)
+
+        // Crosshair at target point
+        const ch = 7
+        ctx.strokeStyle = '#1d4ed8'
+        ctx.lineWidth = 1.5
         ctx.beginPath()
-        ctx.arc(cx, cy, r, 0, Math.PI * 2)
+        ctx.moveTo(tx - ch, ty); ctx.lineTo(tx + ch, ty)
+        ctx.moveTo(tx, ty - ch); ctx.lineTo(tx, ty + ch)
+        ctx.stroke()
+        ctx.beginPath()
+        ctx.arc(tx, ty, 3.5, 0, Math.PI * 2)
+        ctx.fillStyle = '#1d4ed8'
+        ctx.fill()
+
+        // Leader line from badge to crosshair
+        ctx.beginPath()
+        ctx.moveTo(bx, by)
+        ctx.lineTo(tx, ty)
+        ctx.strokeStyle = '#1d4ed8'
+        ctx.lineWidth = 1.5
+        ctx.globalAlpha = 0.5
+        ctx.stroke()
+        ctx.globalAlpha = 1
+
+        // Badge circle
+        ctx.beginPath()
+        ctx.arc(bx, by, r, 0, Math.PI * 2)
         ctx.fillStyle = '#1d4ed8'
         ctx.fill()
 
         // Number
         ctx.fillStyle = 'white'
-        ctx.font = 'bold 13px system-ui, sans-serif'
+        ctx.font = 'bold 12px system-ui, sans-serif'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
-        ctx.fillText(String(ann.number), cx, cy)
+        ctx.fillText(String(ann.number), bx, by)
 
-        // Label
+        // Label — always faces outward (same direction as badge offset)
         if (ann.label) {
           ctx.font = '11px system-ui, sans-serif'
           const m = ctx.measureText(ann.label)
           const pad = 5
-          const onRight = ann.x <= 0.65
-          const boxX = onRight ? cx + r + 8 : cx - r - 8 - m.width - pad * 2
-          const textX = onRight ? boxX + pad : boxX + m.width + pad
+          const boxX = pushRight ? bx + r + 6 : bx - r - 6 - m.width - pad * 2
+          const textX = pushRight ? boxX + pad : boxX + m.width + pad
 
-          ctx.fillStyle = 'rgba(0,0,0,0.72)'
+          ctx.fillStyle = 'rgba(0,0,0,0.75)'
           ctx.beginPath()
-          ctx.roundRect(boxX, cy - 11, m.width + pad * 2, 22, 4)
+          ctx.roundRect(boxX, by - 11, m.width + pad * 2, 22, 4)
           ctx.fill()
 
           ctx.fillStyle = 'white'
-          ctx.textAlign = onRight ? 'left' : 'right'
+          ctx.textAlign = pushRight ? 'left' : 'right'
           ctx.textBaseline = 'middle'
-          ctx.fillText(ann.label, textX, cy)
+          ctx.fillText(ann.label, textX, by)
         }
       }
     }
@@ -104,6 +133,44 @@ function ImageSurface({ artifact }: { artifact: Artifact }) {
   )
 }
 
+function ImageGenerated({ artifact }: { artifact: Artifact }) {
+  const [url, setUrl] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    setUrl(null)
+    setError(null)
+    fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: artifact.content }),
+    })
+      .then(r => r.ok ? r.json() : r.text().then(t => Promise.reject(t)))
+      .then((data: { url: string }) => setUrl(data.url))
+      .catch(e => setError(String(e)))
+  }, [artifact.identifier])
+
+  return (
+    <div className="h-full flex flex-col">
+      {artifact.title && (
+        <div className="text-sm font-medium text-gray-500 mb-2">{artifact.title}</div>
+      )}
+      <div className="flex-1 flex items-center justify-center overflow-auto">
+        {error ? (
+          <p className="text-destructive text-sm">{error}</p>
+        ) : url ? (
+          <img src={url} alt={artifact.title} className="max-w-full max-h-full object-contain rounded-lg" />
+        ) : (
+          <div className="flex flex-col items-center gap-3 text-muted-foreground">
+            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+            <span className="text-sm">Generating image...</span>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 export function ArtifactPanel({ artifact }: Props) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
@@ -124,6 +191,10 @@ export function ArtifactPanel({ artifact }: Props) {
 
   if (artifact.type === 'image/surface') {
     return <ImageSurface artifact={artifact} />
+  }
+
+  if (artifact.type === 'image/generated') {
+    return <ImageGenerated artifact={artifact} />
   }
 
   if (artifact.type === 'application/vnd.ant.code') {

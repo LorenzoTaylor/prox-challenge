@@ -23,7 +23,7 @@ export function HomePage() {
         <BlurFade delay={0.1} direction="down" blur="12px">
           <div className="flex items-center gap-2 mb-10">
             <h1 className="text-6xl tracking-tight">Ask a <em>question</em></h1>
-            <SparkleIcon className="w-12 h-12 shrink-0" />
+            <SparkleIcon className="w-12 h-12 shrink-0" delay={1} />
           </div>
         </BlurFade>
         <div className="w-full max-w-2xl">

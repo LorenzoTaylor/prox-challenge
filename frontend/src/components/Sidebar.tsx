@@ -3,6 +3,7 @@ import { PanelLeft, PanelLeftClose, Sparkles } from 'lucide-react'
 import { Tooltip } from '@base-ui/react/tooltip'
 import { cn } from '@/lib/utils'
 import { useChatSessions } from '@/contexts/ChatSessionsContext'
+import proxLogo from '@/assets/prox.svg'
 
 interface Props {
   open: boolean
@@ -28,7 +29,7 @@ function SidebarButton({
   const button = (
     <button
       onClick={onClick}
-      className="flex items-center w-full px-3 py-2 rounded-md text-sidebar-foreground hover:bg-sidebar-accent transition-colors duration-150"
+      className="flex items-center w-full px-2 py-2 rounded-md text-sidebar-foreground hover:bg-sidebar-accent transition-colors duration-150"
     >
       <span className="shrink-0">{icon}</span>
       <span
@@ -69,13 +70,33 @@ export function Sidebar({ open, onToggle }: Props) {
       )}
     >
       <div className="flex flex-col gap-1 p-2">
-        <SidebarButton
-          icon={open ? <PanelLeftClose size={18} /> : <PanelLeft size={18} />}
-          label={open ? 'Close' : ''}
-          open={open}
-          tooltip="Open sidebar"
-          onClick={onToggle}
-        />
+        {open ? (
+          <div className="flex items-center justify-between px-1 py-1">
+            <img src={proxLogo} alt="Prox" className="h-10 w-auto" />
+            <button
+              onClick={onToggle}
+              className="p-1.5 rounded-md text-sidebar-foreground hover:bg-sidebar-accent transition-colors duration-150"
+            >
+              <PanelLeftClose size={18} />
+            </button>
+          </div>
+        ) : (
+          <Tooltip.Root>
+            <Tooltip.Trigger render={
+              <button
+                onClick={onToggle}
+                className="flex items-center justify-center w-full py-2 rounded-md text-sidebar-foreground hover:bg-sidebar-accent transition-colors duration-150"
+              >
+                <PanelLeft size={18} />
+              </button>
+            } />
+            <Tooltip.Portal>
+              <Tooltip.Positioner side="right" sideOffset={8}>
+                <Tooltip.Popup className={tooltipPopupClass}>Open sidebar</Tooltip.Popup>
+              </Tooltip.Positioner>
+            </Tooltip.Portal>
+          </Tooltip.Root>
+        )}
         <SidebarButton
           icon={<Sparkles size={18} />}
           label="New chat"

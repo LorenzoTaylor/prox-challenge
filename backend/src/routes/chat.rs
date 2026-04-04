@@ -1,14 +1,17 @@
 use axum::{
     Json, Router,
-    extract::State,
-    response::{IntoResponse, sse::{Event, Sse}},
+    extract::{ConnectInfo, State},
+    http::StatusCode,
+    response::{IntoResponse, Response, sse::{Event, Sse}},
     routing::post,
 };
 use futures::StreamExt;
 use serde::Deserialize;
 use serde_json::{json, Value};
 use std::convert::Infallible;
+use std::net::SocketAddr;
 use std::sync::Arc;
+use std::sync::atomic::Ordering;
 use tokio::sync::mpsc;
 use tokio_stream::wrappers::ReceiverStream;
 
@@ -31,13 +34,30 @@ pub fn router(state: Arc<AppState>) -> Router {
         .with_state(state)
 }
 
+const MAX_LIFETIME_REQUESTS: u32 = 300;
+
 async fn chat_handler(
+    ConnectInfo(addr): ConnectInfo<SocketAddr>,
     State(state): State<Arc<AppState>>,
     Json(req): Json<ChatRequest>,
-) -> impl IntoResponse {
-    let (tx, rx) = mpsc::channel(32);
+) -> Response {
+    // Layer 1: per-IP sliding window (10 req/min)
+    if !state.rate_limiter.check(addr.ip()).await {
+        return (StatusCode::TOO_MANY_REQUESTS, "Rate limit exceeded — please wait a minute before sending more requests.").into_response();
+    }
 
+    // Layer 2: lifetime request cap (cost protection for demo)
+    let count = state.request_count.fetch_add(1, Ordering::Relaxed);
+    if count >= MAX_LIFETIME_REQUESTS {
+        return (StatusCode::TOO_MANY_REQUESTS, "This demo has reached its maximum request limit.").into_response();
+    }
+
+    // Layer 3: global concurrency semaphore (max 2 in-flight)
+    let permit = state.semaphore.clone().acquire_owned().await.unwrap();
+
+    let (tx, rx) = mpsc::channel(32);
     tokio::spawn(async move {
+        let _permit = permit; // held until stream completes
         if let Err(e) = stream_chat(state, req, &tx).await {
             let data = json!({"type": "error", "message": e.to_string()}).to_string();
             let _ = tx.send(Ok(Event::default().data(data))).await;
@@ -47,7 +67,7 @@ async fn chat_handler(
     (
         [("x-accel-buffering", "no")],
         Sse::new(ReceiverStream::new(rx)),
-    )
+    ).into_response()
 }
 
 async fn stream_chat(

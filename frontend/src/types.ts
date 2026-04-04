@@ -6,6 +6,7 @@ export type ArtifactType =
   | 'application/vnd.ant.code'
   | 'text/markdown'
   | 'image/surface'
+  | 'image/generated'
 
 export interface Artifact {
   identifier: string

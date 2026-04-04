@@ -60,7 +60,7 @@ function sparkleStyle(delaySeconds: number, loop = false): React.CSSProperties {
   }
 }
 
-export function SparkleIcon({ className = 'w-14 h-14', loop = false }: { className?: string; loop?: boolean }) {
+export function SparkleIcon({ className = 'w-14 h-14', loop = false, delay = 0 }: { className?: string; loop?: boolean; delay?: number }) {
   return (
     <svg
       viewBox="0 0 56 56"
@@ -69,9 +69,9 @@ export function SparkleIcon({ className = 'w-14 h-14', loop = false }: { classNa
       aria-hidden="true"
     >
       <g transform="translate(56, 0) scale(-1, 1)">
-        <path d={PATH_LARGE}  style={sparkleStyle(0,    loop)} />
-        <path d={PATH_MEDIUM} style={sparkleStyle(0.25, loop)} />
-        <path d={PATH_SMALL}  style={sparkleStyle(0.5,  loop)} />
+        <path d={PATH_LARGE}  style={sparkleStyle(delay + 0,    loop)} />
+        <path d={PATH_MEDIUM} style={sparkleStyle(delay + 0.25, loop)} />
+        <path d={PATH_SMALL}  style={sparkleStyle(delay + 0.5,  loop)} />
       </g>
     </svg>
   )

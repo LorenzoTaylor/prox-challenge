@@ -9,7 +9,30 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.8.0/Recharts.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: '#FFFFFF',
+            foreground: '#1a1a1a',
+            primary:    { DEFAULT: '#C4973B', foreground: '#FFFFFF' },
+            muted:      { DEFAULT: '#F5F5F5', foreground: '#6B6B6B' },
+            border:     '#E8E8E8',
+            card:       { DEFAULT: '#FFFFFF', foreground: '#1a1a1a' },
+            accent:     { DEFAULT: '#F5EDD9', foreground: '#7A5C1E' },
+          },
+          fontFamily: {
+            serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+            sans:  ['system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
   <style>
     body { margin: 0; padding: 16px; font-family: system-ui, sans-serif; }
     #root { width: 100%; }
