@@ -1,6 +1,23 @@
 import { useState, useRef, useCallback } from 'react'
 import type { AgentState } from '@/components/ui/orb'
 
+// Web Speech API types — not always present depending on TS lib/types config
+type SpeechRecognitionCtor = new () => SpeechRecognitionInstance
+interface SpeechRecognitionInstance {
+  continuous: boolean
+  interimResults: boolean
+  lang: string
+  start(): void
+  abort(): void
+  onstart: (() => void) | null
+  onresult: ((e: SpeechRecognitionResultEvent) => void) | null
+  onerror: (() => void) | null
+  onend: (() => void) | null
+}
+interface SpeechRecognitionResultEvent {
+  results: { [i: number]: { [j: number]: { transcript: string } } }
+}
+
 export type VoiceState = 'idle' | 'listening' | 'thinking' | 'talking'
 
 export const ORB_AGENT_STATE: Record<VoiceState, AgentState> = {
@@ -16,13 +33,13 @@ interface UseVoiceOptions {
 
 export function useVoice({ onTranscript }: UseVoiceOptions) {
   const [voiceState, setVoiceState] = useState<VoiceState>('idle')
-  const recognitionRef = useRef<SpeechRecognition | null>(null)
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const activeRef = useRef(false)
 
   const startListening = useCallback(() => {
-    const SR = (window as typeof window & { SpeechRecognition?: typeof SpeechRecognition; webkitSpeechRecognition?: typeof SpeechRecognition }).SpeechRecognition
-      || (window as typeof window & { webkitSpeechRecognition?: typeof SpeechRecognition }).webkitSpeechRecognition
+    const w = window as typeof window & { SpeechRecognition?: SpeechRecognitionCtor; webkitSpeechRecognition?: SpeechRecognitionCtor }
+    const SR = w.SpeechRecognition || w.webkitSpeechRecognition
     if (!SR) return
 
     activeRef.current = true
@@ -34,7 +51,7 @@ export function useVoice({ onTranscript }: UseVoiceOptions) {
 
     recognition.onstart = () => setVoiceState('listening')
 
-    recognition.onresult = (e: SpeechRecognitionEvent) => {
+    recognition.onresult = (e: SpeechRecognitionResultEvent) => {
       const transcript = e.results[0][0].transcript.trim()
       if (transcript) {
         setVoiceState('thinking')
