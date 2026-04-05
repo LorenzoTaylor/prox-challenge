@@ -1,6 +1,6 @@
 [build]
 builder = "NIXPACKS"
-buildCommand = "cd frontend && npm install && npm run build && cd .. && cargo build --release --manifest-path backend/Cargo.toml"
+buildCommand = "cd frontend && rm -rf node_modules && npm install && npm run build && cd .. && cargo build --release --manifest-path backend/Cargo.toml"
 
 [deploy]
 startCommand = "./backend/target/release/server"
