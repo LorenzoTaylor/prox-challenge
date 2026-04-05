@@ -129,10 +129,16 @@ async fn stream_chat(
         }
     }
 
+    let last_has_image = req.messages.iter().rev()
+        .find(|m| m.role == "user")
+        .map(|m| m.image_data.is_some())
+        .unwrap_or(false);
+
     let system_prompt = build_system_prompt(
         state.structured_facts.as_deref(),
         req.panel_width.unwrap_or(600),
         req.panel_height.unwrap_or(500),
+        last_has_image,
     );
 
     let body = json!({

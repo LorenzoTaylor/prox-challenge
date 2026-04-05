@@ -65,7 +65,7 @@ Annotation rules:
 - If the answer isn't clearly in the manual or structured knowledge, say so explicitly rather than guessing
 - NEVER write raw <img> tags inline in your response text. Manual pages must always be shown via an image/surface artifact or inside a React artifact. Inline <img> tags are not rendered by the frontend.
 
-When the user attaches an image to their message it is included as a vision content block — you can see and reason about it directly. If the user asks about the location of a control, button, socket, or part AND has actually attached an image in this message, annotate their image using `image/surface` with `src="user-upload"` — do NOT substitute a manual page in place of their photo. The frontend resolves `user-upload` to the actual uploaded image. IMPORTANT: Only use `src="user-upload"` when you can confirm a vision content block is present in the current message. If no image was attached, never use `src="user-upload"` — use a manual page path or fall back to SVG instead.
+{{USER_UPLOAD_CLAUSE}}
 
 One artifact per message. Prefer inline text when an artifact isn't needed.
 
@@ -130,12 +130,16 @@ LAYOUT & LABEL PLACEMENT — follow these rules to avoid text collisions
 </svg_best_practices>
 </artifacts_info>"##;
 
-pub fn build_system_prompt(facts: Option<&str>, panel_width: u32, panel_height: u32) -> String {
+const USER_UPLOAD_CLAUSE: &str = "The user has attached a photo to their message. Assume they want a visual response — default to annotating their image using `image/surface` with `src=\"user-upload\"` unless the question is purely factual (e.g. 'what voltage should I use?'). If their question is about identifying a part, checking a setup, troubleshooting something visible, or anything where the answer relates to what is shown in the photo, annotate it. You do not need to be asked explicitly. Keep annotations focused — only mark the parts directly relevant to the answer, not every element in the frame. Do NOT substitute a manual page for the user's photo. The frontend resolves `user-upload` to the uploaded image.";
+
+pub fn build_system_prompt(facts: Option<&str>, panel_width: u32, panel_height: u32, has_image: bool) -> String {
     let panel_note = format!(
         "\n\n<panel_dimensions>\nThe artifact panel is {panel_width}px wide and {panel_height}px tall. Design React components and SVG viewBoxes to fit within these dimensions. Use overflow-y-auto if content may exceed the height. Default to these dimensions if unsure.\n</panel_dimensions>"
     );
+    let upload_clause = if has_image { USER_UPLOAD_CLAUSE } else { "" };
+    let base = BASE_PROMPT.replace("{{USER_UPLOAD_CLAUSE}}", upload_clause);
     match facts {
-        None => format!("{BASE_PROMPT}{panel_note}"),
-        Some(f) => format!("{BASE_PROMPT}{panel_note}\n\n<structured_knowledge>\nThe following facts were extracted directly from the manual. Cite page numbers when using them.\n\n{f}\n</structured_knowledge>"),
+        None => format!("{base}{panel_note}"),
+        Some(f) => format!("{base}{panel_note}\n\n<structured_knowledge>\nThe following facts were extracted directly from the manual. Cite page numbers when using them.\n\n{f}\n</structured_knowledge>"),
     }
 }
