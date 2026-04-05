@@ -164,8 +164,16 @@ export function ChatPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages.length])
 
-  // On mount: restore existing session OR seed from router state for a new chat
+  // On chatId change: reset state, then restore existing session OR seed from router state
   useEffect(() => {
+    setMessages([])
+    setInput('')
+    setStreaming(false)
+    setActiveArtifact(null)
+    setPendingImage(null)
+    sessionRegistered.current = false
+    shouldAutoSubmit.current = false
+
     const existing = getSession(chatId!)
     if (existing && existing.messages.length > 0) {
       setMessages(existing.messages)
@@ -186,7 +194,7 @@ export function ChatPage() {
       shouldAutoSubmit.current = true
     }
     window.history.replaceState({}, '')
-  }, [])
+  }, [chatId])
 
   useEffect(() => {
     if (shouldAutoSubmit.current && input && messages.length === 0) {

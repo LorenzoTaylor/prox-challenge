@@ -39,7 +39,7 @@ export function ChatSessionsProvider({ children }: { children: React.ReactNode }
   function addSession(id: string, title: string) {
     setSessions(prev => {
       if (prev.some(s => s.id === id)) return prev
-      return [{ id, title: title.slice(0, 60), createdAt: Date.now(), messages: [], activeArtifact: null }, ...prev]
+      return [{ id, title: title.slice(0, 60), createdAt: Date.now(), messages: [], activeArtifact: null }, ...prev].slice(0, 10)
     })
   }
 
