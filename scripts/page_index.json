@@ -1,0 +1,224 @@
+{
+  "owner-manual": {
+    "file": "owner-manual.pdf",
+    "page_count": 48,
+    "pages": [
+      {
+        "page": 1,
+        "path": "scripts/pages/owner-manual/page_1.png"
+      },
+      {
+        "page": 2,
+        "path": "scripts/pages/owner-manual/page_2.png"
+      },
+      {
+        "page": 3,
+        "path": "scripts/pages/owner-manual/page_3.png"
+      },
+      {
+        "page": 4,
+        "path": "scripts/pages/owner-manual/page_4.png"
+      },
+      {
+        "page": 5,
+        "path": "scripts/pages/owner-manual/page_5.png"
+      },
+      {
+        "page": 6,
+        "path": "scripts/pages/owner-manual/page_6.png"
+      },
+      {
+        "page": 7,
+        "path": "scripts/pages/owner-manual/page_7.png"
+      },
+      {
+        "page": 8,
+        "path": "scripts/pages/owner-manual/page_8.png"
+      },
+      {
+        "page": 9,
+        "path": "scripts/pages/owner-manual/page_9.png"
+      },
+      {
+        "page": 10,
+        "path": "scripts/pages/owner-manual/page_10.png"
+      },
+      {
+        "page": 11,
+        "path": "scripts/pages/owner-manual/page_11.png"
+      },
+      {
+        "page": 12,
+        "path": "scripts/pages/owner-manual/page_12.png"
+      },
+      {
+        "page": 13,
+        "path": "scripts/pages/owner-manual/page_13.png"
+      },
+      {
+        "page": 14,
+        "path": "scripts/pages/owner-manual/page_14.png"
+      },
+      {
+        "page": 15,
+        "path": "scripts/pages/owner-manual/page_15.png"
+      },
+      {
+        "page": 16,
+        "path": "scripts/pages/owner-manual/page_16.png"
+      },
+      {
+        "page": 17,
+        "path": "scripts/pages/owner-manual/page_17.png"
+      },
+      {
+        "page": 18,
+        "path": "scripts/pages/owner-manual/page_18.png"
+      },
+      {
+        "page": 19,
+        "path": "scripts/pages/owner-manual/page_19.png"
+      },
+      {
+        "page": 20,
+        "path": "scripts/pages/owner-manual/page_20.png"
+      },
+      {
+        "page": 21,
+        "path": "scripts/pages/owner-manual/page_21.png"
+      },
+      {
+        "page": 22,
+        "path": "scripts/pages/owner-manual/page_22.png"
+      },
+      {
+        "page": 23,
+        "path": "scripts/pages/owner-manual/page_23.png"
+      },
+      {
+        "page": 24,
+        "path": "scripts/pages/owner-manual/page_24.png"
+      },
+      {
+        "page": 25,
+        "path": "scripts/pages/owner-manual/page_25.png"
+      },
+      {
+        "page": 26,
+        "path": "scripts/pages/owner-manual/page_26.png"
+      },
+      {
+        "page": 27,
+        "path": "scripts/pages/owner-manual/page_27.png"
+      },
+      {
+        "page": 28,
+        "path": "scripts/pages/owner-manual/page_28.png"
+      },
+      {
+        "page": 29,
+        "path": "scripts/pages/owner-manual/page_29.png"
+      },
+      {
+        "page": 30,
+        "path": "scripts/pages/owner-manual/page_30.png"
+      },
+      {
+        "page": 31,
+        "path": "scripts/pages/owner-manual/page_31.png"
+      },
+      {
+        "page": 32,
+        "path": "scripts/pages/owner-manual/page_32.png"
+      },
+      {
+        "page": 33,
+        "path": "scripts/pages/owner-manual/page_33.png"
+      },
+      {
+        "page": 34,
+        "path": "scripts/pages/owner-manual/page_34.png"
+      },
+      {
+        "page": 35,
+        "path": "scripts/pages/owner-manual/page_35.png"
+      },
+      {
+        "page": 36,
+        "path": "scripts/pages/owner-manual/page_36.png"
+      },
+      {
+        "page": 37,
+        "path": "scripts/pages/owner-manual/page_37.png"
+      },
+      {
+        "page": 38,
+        "path": "scripts/pages/owner-manual/page_38.png"
+      },
+      {
+        "page": 39,
+        "path": "scripts/pages/owner-manual/page_39.png"
+      },
+      {
+        "page": 40,
+        "path": "scripts/pages/owner-manual/page_40.png"
+      },
+      {
+        "page": 41,
+        "path": "scripts/pages/owner-manual/page_41.png"
+      },
+      {
+        "page": 42,
+        "path": "scripts/pages/owner-manual/page_42.png"
+      },
+      {
+        "page": 43,
+        "path": "scripts/pages/owner-manual/page_43.png"
+      },
+      {
+        "page": 44,
+        "path": "scripts/pages/owner-manual/page_44.png"
+      },
+      {
+        "page": 45,
+        "path": "scripts/pages/owner-manual/page_45.png"
+      },
+      {
+        "page": 46,
+        "path": "scripts/pages/owner-manual/page_46.png"
+      },
+      {
+        "page": 47,
+        "path": "scripts/pages/owner-manual/page_47.png"
+      },
+      {
+        "page": 48,
+        "path": "scripts/pages/owner-manual/page_48.png"
+      }
+    ]
+  },
+  "quick-start-guide": {
+    "file": "quick-start-guide.pdf",
+    "page_count": 2,
+    "pages": [
+      {
+        "page": 1,
+        "path": "scripts/pages/quick-start-guide/page_1.png"
+      },
+      {
+        "page": 2,
+        "path": "scripts/pages/quick-start-guide/page_2.png"
+      }
+    ]
+  },
+  "selection-chart": {
+    "file": "selection-chart.pdf",
+    "page_count": 1,
+    "pages": [
+      {
+        "page": 1,
+        "path": "scripts/pages/selection-chart/page_1.png"
+      }
+    ]
+  }
+}

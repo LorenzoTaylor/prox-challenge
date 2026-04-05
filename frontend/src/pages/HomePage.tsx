@@ -7,13 +7,19 @@ import { ChatInput } from '@/components/ChatInput'
 
 export function HomePage() {
   const [input, setInput] = useState('')
+  const [pendingImage, setPendingImage] = useState<{ preview: string; data: string; mediaType: string } | null>(null)
   const navigate = useNavigate()
 
   function handleSubmit() {
     const trimmed = input.trim()
     if (!trimmed) return
     const chatId = crypto.randomUUID()
-    navigate(`/chat/${chatId}`, { state: { initialMessage: trimmed } })
+    navigate(`/chat/${chatId}`, { state: { initialMessage: trimmed, pendingImage } })
+  }
+
+  function handleVoiceMode() {
+    const chatId = crypto.randomUUID()
+    navigate(`/chat/${chatId}`, { state: { voiceMode: true } })
   }
 
   return (
@@ -33,6 +39,10 @@ export function HomePage() {
             onSubmit={handleSubmit}
             disabled={false}
             hasMessages={false}
+            onVoiceMode={handleVoiceMode}
+            attachedImage={pendingImage}
+            onImageAttach={(preview, data, mediaType) => setPendingImage({ preview, data, mediaType })}
+            onImageRemove={() => setPendingImage(null)}
           />
         </div>
       </div>

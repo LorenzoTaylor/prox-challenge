@@ -29,7 +29,7 @@ function SidebarButton({
   const button = (
     <button
       onClick={onClick}
-      className="flex items-center w-full px-2 py-2 rounded-md text-sidebar-foreground hover:bg-sidebar-accent transition-colors duration-150"
+      className="flex items-center w-full px-2 py-2 rounded-md text-sidebar-foreground hover:bg-sidebar-accent transition-colors duration-150 cursor-pointer"
     >
       <span className="shrink-0">{icon}</span>
       <span
@@ -75,7 +75,7 @@ export function Sidebar({ open, onToggle }: Props) {
             <img src={proxLogo} alt="Prox" className="h-10 w-auto" />
             <button
               onClick={onToggle}
-              className="p-1.5 rounded-md text-sidebar-foreground hover:bg-sidebar-accent transition-colors duration-150"
+              className="p-1.5 rounded-md text-sidebar-foreground hover:bg-sidebar-accent transition-colors duration-150 cursor-pointer"
             >
               <PanelLeftClose size={18} />
             </button>
@@ -85,7 +85,7 @@ export function Sidebar({ open, onToggle }: Props) {
             <Tooltip.Trigger render={
               <button
                 onClick={onToggle}
-                className="flex items-center justify-center w-full py-2 rounded-md text-sidebar-foreground hover:bg-sidebar-accent transition-colors duration-150"
+                className="flex items-center justify-center w-full py-2 rounded-md text-sidebar-foreground hover:bg-sidebar-accent transition-colors duration-150 cursor-pointer"
               >
                 <PanelLeft size={18} />
               </button>
@@ -116,7 +116,7 @@ export function Sidebar({ open, onToggle }: Props) {
               <button
                 key={s.id}
                 onClick={() => navigate(`/chat/${s.id}`)}
-                className="w-full text-left px-3 py-2 text-sm truncate rounded-md hover:bg-sidebar-accent transition-colors duration-150 text-sidebar-foreground"
+                className="w-full text-left px-3 py-2 text-sm truncate rounded-md hover:bg-sidebar-accent transition-colors duration-150 text-sidebar-foreground cursor-pointer"
               >
                 {s.title}
               </button>

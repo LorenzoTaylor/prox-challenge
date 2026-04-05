@@ -1,0 +1,1768 @@
+{
+  "duty_cycles": [
+    {
+      "process": "MIG",
+      "voltage": 120,
+      "rated_pct": 40,
+      "rated_amps": 100,
+      "continuous_pct": 100,
+      "continuous_amps": 75,
+      "source_page": 23,
+      "source_doc": "owner-manual"
+    },
+    {
+      "process": "MIG",
+      "voltage": 240,
+      "rated_pct": 20,
+      "rated_amps": 165,
+      "continuous_pct": 10,
+      "continuous_amps": null,
+      "source_page": 1,
+      "source_doc": "selection-chart"
+    },
+    {
+      "process": "Stick",
+      "voltage": 120,
+      "rated_pct": 40,
+      "rated_amps": 80,
+      "continuous_pct": 100,
+      "continuous_amps": 60,
+      "source_page": 29,
+      "source_doc": "owner-manual"
+    },
+    {
+      "process": "Stick",
+      "voltage": 240,
+      "rated_pct": 25,
+      "rated_amps": 175,
+      "continuous_pct": 100,
+      "continuous_amps": 100,
+      "source_page": 29,
+      "source_doc": "owner-manual"
+    },
+    {
+      "process": "TIG",
+      "voltage": 120,
+      "rated_pct": 40,
+      "rated_amps": 125,
+      "continuous_pct": 100,
+      "continuous_amps": 90,
+      "source_page": 29,
+      "source_doc": "owner-manual"
+    },
+    {
+      "process": "TIG",
+      "voltage": 240,
+      "rated_pct": 30,
+      "rated_amps": 175,
+      "continuous_pct": 100,
+      "continuous_amps": 105,
+      "source_page": 29,
+      "source_doc": "owner-manual"
+    }
+  ],
+  "polarity_setups": [
+    {
+      "process": "Flux-Cored",
+      "ground_socket": "positive(+)",
+      "torch_socket": "negative(-)",
+      "wire_feed_socket": "negative(-)",
+      "gas_type": "N/A",
+      "polarity_type": "DCEN",
+      "source_page": 2,
+      "source_doc": "quick-start-guide"
+    },
+    {
+      "process": "MIG",
+      "ground_socket": "negative(-)",
+      "torch_socket": "positive(+)",
+      "wire_feed_socket": "positive(+)",
+      "gas_type": "75/25 Argon/CO2",
+      "polarity_type": "DCEP",
+      "source_page": 2,
+      "source_doc": "quick-start-guide"
+    },
+    {
+      "process": "Stick",
+      "ground_socket": "negative(-)",
+      "torch_socket": "positive(+)",
+      "wire_feed_socket": "N/A",
+      "gas_type": "N/A",
+      "polarity_type": "DCEP",
+      "source_page": 2,
+      "source_doc": "quick-start-guide"
+    },
+    {
+      "process": "TIG",
+      "ground_socket": "positive(+)",
+      "torch_socket": "negative(-)",
+      "wire_feed_socket": "N/A",
+      "gas_type": "100% Argon",
+      "polarity_type": "DCEN",
+      "source_page": 2,
+      "source_doc": "quick-start-guide"
+    }
+  ],
+  "troubleshooting": [
+    {
+      "symptom": "Wire spool can spin freely",
+      "process": "",
+      "source_page": 11,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Wingnut is too loose"
+      ],
+      "solutions": [
+        "Tighten the wingnut to prevent the wire spool from spinning freely, which can cause wire tangling and feeding problems"
+      ]
+    },
+    {
+      "symptom": "Wire does not feed properly and spool is stationary",
+      "process": "MIG",
+      "source_page": 16,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Feed tension too tight"
+      ],
+      "solutions": [
+        "Turn OFF and unplug the welder",
+        "Slightly tighten the Feed Tensioner clockwise before retrying"
+      ]
+    },
+    {
+      "symptom": "Good weld bends and is not brittle",
+      "process": "",
+      "source_page": 34,
+      "source_doc": "owner-manual",
+      "causes": [],
+      "solutions": [
+        "Proper welding technique has been used"
+      ]
+    },
+    {
+      "symptom": "Poor weld snaps or cracks",
+      "process": "",
+      "source_page": 34,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Improper welding technique"
+      ],
+      "solutions": [
+        "Adjust weld technique to remedy problems"
+      ]
+    },
+    {
+      "symptom": "Inadequate penetration - not hot enough",
+      "process": "",
+      "source_page": 35,
+      "source_doc": "owner-manual",
+      "causes": [
+        "insufficient weld current",
+        "excessive travel speed",
+        "wire feed too slow",
+        "contact tip to workpiece distance (CTWD) too long"
+      ],
+      "solutions": [
+        "increase weld current",
+        "decrease travel speed",
+        "use faster wire feed",
+        "use shorter CTWD"
+      ]
+    },
+    {
+      "symptom": "Excess penetration or burn-through - too hot",
+      "process": "",
+      "source_page": 35,
+      "source_doc": "owner-manual",
+      "causes": [
+        "excessive weld current",
+        "insufficient travel speed",
+        "wire feed too fast",
+        "CTWD too short"
+      ],
+      "solutions": [
+        "decrease weld current",
+        "increase travel speed",
+        "use slower wire feed",
+        "use longer CTWD"
+      ]
+    },
+    {
+      "symptom": "Voltage too low or wire feed too slow",
+      "process": "",
+      "source_page": 35,
+      "source_doc": "owner-manual",
+      "causes": [
+        "insufficient voltage output"
+      ],
+      "solutions": [
+        "increase output voltage or increase wire feed speed"
+      ]
+    },
+    {
+      "symptom": "Voltage too high or wire feed too fast",
+      "process": "",
+      "source_page": 35,
+      "source_doc": "owner-manual",
+      "causes": [
+        "excessive voltage output"
+      ],
+      "solutions": [
+        "decrease output voltage or decrease wire feed speed"
+      ]
+    },
+    {
+      "symptom": "Travel speed too fast",
+      "process": "",
+      "source_page": 35,
+      "source_doc": "owner-manual",
+      "causes": [
+        "excessive travel speed"
+      ],
+      "solutions": [
+        "travel slower"
+      ]
+    },
+    {
+      "symptom": "Travel speed too slow",
+      "process": "",
+      "source_page": 35,
+      "source_doc": "owner-manual",
+      "causes": [
+        "insufficient travel speed"
+      ],
+      "solutions": [
+        "travel faster"
+      ]
+    },
+    {
+      "symptom": "CTWD too long or wrong polarity",
+      "process": "",
+      "source_page": 35,
+      "source_doc": "owner-manual",
+      "causes": [
+        "incorrect contact tip to workpiece distance",
+        "incorrect cable polarity"
+      ],
+      "solutions": [
+        "check polarity and maintain less than 1/2 inch CTWD"
+      ]
+    },
+    {
+      "symptom": "Excess penetration or burn-through",
+      "process": "",
+      "source_page": 36,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Workpiece overheating",
+        "Travel speed too slow",
+        "Excessive material at weld"
+      ],
+      "solutions": [
+        "Reduce wire feed speed",
+        "Decrease weld current",
+        "Increase travel speed and ensure that travel speed is kept steady",
+        "Reduce wire feed speed"
+      ]
+    },
+    {
+      "symptom": "Inadequate penetration",
+      "process": "",
+      "source_page": 36,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Incorrect welding technique",
+        "Insufficient weld heat",
+        "Workpieces too thick/close",
+        "Insufficient weld material"
+      ],
+      "solutions": [
+        "Maintain 1/2\" or less CTWD",
+        "Keep arc on leading edge of weld puddle",
+        "Hold MIG Gun at proper angles",
+        "Reduce travel speed",
+        "Increase weld current",
+        "Bevel thick workpieces, allow slight gap, and weld in several passes",
+        "Increase wire feed speed"
+      ]
+    },
+    {
+      "symptom": "Bend at joint",
+      "process": "",
+      "source_page": 36,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Improper clamping",
+        "Excessive heat"
+      ],
+      "solutions": [
+        "Clamp workpieces securely",
+        "Make tack welds to hold workpieces",
+        "Weld a small portion and allow to cool before proceeding",
+        "Increase travel speed",
+        "Reduce wire feed speed"
+      ]
+    },
+    {
+      "symptom": "Weld not adhering properly",
+      "process": "",
+      "source_page": 36,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Incorrect welding technique",
+        "Insufficient weld heat",
+        "Dirty workpiece",
+        "Insufficient weld material",
+        "Workpiece gap too narrow"
+      ],
+      "solutions": [
+        "Place stringer bead at correct place in joint",
+        "Adjust workpiece position or weld angle to permit proper welding to bottom of piece",
+        "Pause briefly at sides during weave bead",
+        "Keep arc on leading edge of weld puddle",
+        "Hold MIG Gun at proper angles",
+        "Increase current",
+        "Increase wire feed speed",
+        "Clean workpiece down to bare metal",
+        "Increase wire feed speed",
+        "Widen groove or increase bevel"
+      ]
+    },
+    {
+      "symptom": "Wire Weld\u2013Porosity: Small cavities or holes in the bead",
+      "process": "MIG",
+      "source_page": 37,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Incorrect polarity",
+        "Insufficient shielding gas",
+        "Incorrect shielding gas",
+        "Dirty workpiece or welding wire",
+        "Inconsistent travel speed",
+        "CTWD too long"
+      ],
+      "solutions": [
+        "Check that polarity is set correctly for type of welding",
+        "Increase flow of gas, clean nozzle, maintain proper CTWD",
+        "Use shielding gas recommended by wire supplier",
+        "Clean workpiece down to bare metal, make certain that wire is clean and free from oil, coatings, and other residues",
+        "Maintain steady travel speed",
+        "Reduce CTWD"
+      ]
+    },
+    {
+      "symptom": "Wire Weld\u2013Excessive Spatter: Fine spatter is normal. Spatter that is grainy and large is a problem",
+      "process": "MIG",
+      "source_page": 37,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Dirty workpiece or welding wire",
+        "Incorrect polarity",
+        "Insufficient shielding gas",
+        "Wire feeding too fast",
+        "CTWD too long"
+      ],
+      "solutions": [
+        "Clean workpiece down to bare metal. Make certain that wire is clean and free from oil, coatings, and other residues",
+        "Check that polarity is set correctly for type of welding",
+        "Increase flow of gas, clean nozzle, maintain proper CTWD",
+        "Reduce wire feed speed",
+        "Reduce CTWD"
+      ]
+    },
+    {
+      "symptom": "Wire Weld\u2013Crooked/Wavy Bead: Bead is not straight or has a wavy appearance",
+      "process": "MIG",
+      "source_page": 37,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Inaccurate welding",
+        "Inconsistent travel speed",
+        "CTWD too long"
+      ],
+      "solutions": [
+        "Use two hands or rest hand on steady surface",
+        "Maintain steady travel speed",
+        "Reduce CTWD"
+      ]
+    },
+    {
+      "symptom": "Wire Weld\u2013Burn-Through: Base material melts away, leaving a hole in the weld",
+      "process": "MIG",
+      "source_page": 37,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Workpiece overheating",
+        "Travel speed too slow",
+        "Excessive material at weld"
+      ],
+      "solutions": [
+        "Reduce current and/or wire feed speed",
+        "Increase travel speed and ensure that travel speed is kept steady",
+        "Reduce wire feed speed"
+      ]
+    },
+    {
+      "symptom": "Inadequate penetration",
+      "process": "Stick",
+      "source_page": 38,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Not enough heat",
+        "Current too low"
+      ],
+      "solutions": [
+        "Increase current",
+        "Weld more slowly"
+      ]
+    },
+    {
+      "symptom": "Current too low",
+      "process": "Stick",
+      "source_page": 38,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Insufficient heat for proper fusion"
+      ],
+      "solutions": [
+        "Increase the current"
+      ]
+    },
+    {
+      "symptom": "Current too high",
+      "process": "Stick",
+      "source_page": 38,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Too much heat",
+        "Excess penetration or burn-through"
+      ],
+      "solutions": [
+        "Decrease the current"
+      ]
+    },
+    {
+      "symptom": "Weld speed too fast",
+      "process": "Stick",
+      "source_page": 38,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Insufficient heat and penetration"
+      ],
+      "solutions": [
+        "Weld slower"
+      ]
+    },
+    {
+      "symptom": "Weld speed too slow",
+      "process": "Stick",
+      "source_page": 38,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Excess heat and burn-through"
+      ],
+      "solutions": [
+        "Weld faster"
+      ]
+    },
+    {
+      "symptom": "Arc length too short",
+      "process": "Stick",
+      "source_page": 38,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Inadequate penetration"
+      ],
+      "solutions": [
+        "Increase distance"
+      ]
+    },
+    {
+      "symptom": "Arc length too long",
+      "process": "Stick",
+      "source_page": 38,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Excess penetration or burn-through"
+      ],
+      "solutions": [
+        "Decrease distance"
+      ]
+    },
+    {
+      "symptom": "Excess penetration or burn-through",
+      "process": "Stick",
+      "source_page": 39,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Workpiece overheating",
+        "Welding speed too slow"
+      ],
+      "solutions": [
+        "Reduce current",
+        "Increase welding speed and ensure that welding speed is kept steady"
+      ]
+    },
+    {
+      "symptom": "Inadequate penetration",
+      "process": "Stick",
+      "source_page": 39,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Incorrect welding technique",
+        "Insufficient weld heat",
+        "Workpieces too thick/close",
+        "Insufficient weld material"
+      ],
+      "solutions": [
+        "Keep arc on leading edge of weld puddle, hold torch at proper angles",
+        "Slow down so fill material has time to melt into the weld location, increase current",
+        "Bevel thick workpieces, allow slight gap, and weld in several passes",
+        "Increase amount of fill material"
+      ]
+    },
+    {
+      "symptom": "Weld not adhering properly",
+      "process": "Stick",
+      "source_page": 39,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Incorrect welding technique",
+        "Insufficient weld heat",
+        "Dirty workpiece",
+        "Insufficient weld material",
+        "Distance between workpieces too large"
+      ],
+      "solutions": [
+        "Place stringer bead at correct place in joint, adjust workpiece position or weld angle to permit proper welding to bottom of piece, keep arc on leading edge of weld puddle, hold electrode and fill material at proper angles",
+        "Increase current",
+        "Clean workpiece down to bare metal",
+        "Increase amount of fill material",
+        "Decrease distance and increase bevel"
+      ]
+    },
+    {
+      "symptom": "Bend at joint",
+      "process": "Stick",
+      "source_page": 39,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Improper clamping",
+        "Excessive heat"
+      ],
+      "solutions": [
+        "Clamp workpieces securely, make tack welds to hold workpieces",
+        "Weld a small portion and allow to cool before proceeding, increase weld speed"
+      ]
+    },
+    {
+      "symptom": "Coat of Slag Over Weld",
+      "process": "Stick",
+      "source_page": 40,
+      "source_doc": "owner-manual",
+      "causes": [],
+      "solutions": [
+        "Clean off the slag with the Chipping Hammer and Wire Brush after welding"
+      ]
+    },
+    {
+      "symptom": "Porosity - Small cavities or holes in the bead",
+      "process": "Stick",
+      "source_page": 40,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Dirty workpiece or fill material",
+        "Inconsistent welding speed"
+      ],
+      "solutions": [
+        "Clean workpiece down to bare metal. Make certain that fill material and Electrode are clean and free from oil, coatings, and other residues",
+        "Maintain steady weld speed"
+      ]
+    },
+    {
+      "symptom": "Crooked/Wavy Bead",
+      "process": "Stick",
+      "source_page": 40,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Inaccurate welding",
+        "Inconsistent welding speed"
+      ],
+      "solutions": [
+        "Use two hands or rest hand on steady surface",
+        "Maintain steady weld speed"
+      ]
+    },
+    {
+      "symptom": "Excessive Spatter",
+      "process": "Stick",
+      "source_page": 40,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Dirty workpiece or fill material"
+      ],
+      "solutions": [
+        "Clean workpiece down to bare metal. Make certain that fill material and Electrode are clean and free from oil, coatings, and other residues"
+      ]
+    },
+    {
+      "symptom": "Burn-Through - Base material melts away, leaving a hole in the weld",
+      "process": "Stick",
+      "source_page": 40,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Workpiece overheating",
+        "Welding speed too slow",
+        "Excessive material at weld"
+      ],
+      "solutions": [
+        "Reduce current",
+        "Increase welding speed and ensure that welding speed is kept steady",
+        "Reduce amount of fill material"
+      ]
+    },
+    {
+      "symptom": "Wire Feed Motor Runs but Wire Does not Feed Properly",
+      "process": "MIG/Flux-Cored",
+      "source_page": 42,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Insufficient wire feed pressure",
+        "Incorrect wire feed roller size",
+        "Damaged MIG Gun, cable, or liner assembly",
+        "Feed Tensioner is too tight"
+      ],
+      "solutions": [
+        "Increase wire feed pressure properly. Follow step 27 on page 17",
+        "Flip roll to correct size. Follow the Feed Roller instructions on page 12",
+        "Have a qualified technician inspect these parts and replace as necessary",
+        "Loosen Feed Tensioner so it applies only enough pressure to prevent continued spinning after the Gun Trigger is released"
+      ]
+    },
+    {
+      "symptom": "Wire Creates a Bird's Nest During Operation",
+      "process": "MIG/Flux-Cored",
+      "source_page": 42,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Excess wire feed pressure",
+        "Incorrect Contact Tip size",
+        "MIG Gun Cable Connector not fully inserted into Wire Feed mechanism",
+        "Damaged liner"
+      ],
+      "solutions": [
+        "Adjust wire feed pressure properly. Follow step 27 on page 17",
+        "Replace with the proper tip for wire used",
+        "Insert Gun Cable Connector properly. Follow steps 13 and 14 on page 13",
+        "Have a qualified technician inspect and repair/replace as necessary"
+      ]
+    },
+    {
+      "symptom": "Wire Stops During Welding",
+      "process": "MIG/Flux-Cored",
+      "source_page": 42,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Gun cable is severely bent and Wire Feed mechanism cannot feed wire",
+        "Gun liner is clogged or worn",
+        "Gun liner is too small for welding wire being used",
+        "Wire is tangled on the spool",
+        "Wire is not making contact with Feed Rollers",
+        "Feed Roller is not making enough contact with wire or is crushing flux-cored wire"
+      ],
+      "solutions": [
+        "Straighten Gun cable",
+        "Check gun liner for obstruction. Replace if necessary",
+        "Check that gun liner is correct size for wire",
+        "Check wire for cross winding or tangled spool",
+        "Check Feed Rollers and ensure correct groove for wire diameter is being used",
+        "Check Feed Tensioner and ensure it is set properly"
+      ]
+    },
+    {
+      "symptom": "Welding Arc Not Stable",
+      "process": "MIG/Flux-Cored",
+      "source_page": 42,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Wire not feeding properly",
+        "Incorrect Contact Tip or liner size or excessive wear",
+        "Incorrect wire feed speed",
+        "Loose MIG Gun cable or ground cable",
+        "Damaged MIG Gun or loose connection within Gun",
+        "Incorrect polarity for process being run",
+        "Gas coverage may be insufficient or too high",
+        "Poor connection with workpiece"
+      ],
+      "solutions": [
+        "See first Troubleshooting section above",
+        "Replace with the proper tip or liner size for wire used",
+        "Adjust wire feed speed to achieve a more stable arc",
+        "Check to ensure that all connections are tight",
+        "Have a qualified technician inspect and repair/replace as necessary",
+        "Ensure polarity is correct for operation: DCEP for MIG welding and DGEN for Flux-Cored self-shielded welding",
+        "Ensure gas flow rate is set according to Settings Chart. Make sure MIG Gun Cable Connector is fully inserted into Wire Feed mechanism with no O-Rings exposed",
+        "Check the ground clamp connection to the workpiece and machine. Ensure the MIG Gun is properly secured"
+      ]
+    },
+    {
+      "symptom": "Weak Arc Strength",
+      "process": "MIG/Flux-Cored",
+      "source_page": 42,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Incorrect line voltage",
+        "Improper gauge or length of cord",
+        "Not enough current"
+      ],
+      "solutions": [
+        "Check the line voltage and, if insufficient, have a licensed electrician remedy the situation",
+        "Do not use an extension cord on this Welder. Use only one of the supplied power cords for this Welder or an identical replacement cord",
+        "Switch current to proper setting for metal thickness"
+      ]
+    },
+    {
+      "symptom": "Welder Does Not Function When Switched On",
+      "process": "",
+      "source_page": 43,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Tripped thermal protection device",
+        "Circuit supplies insufficient input voltage or amperage",
+        "Faulty or improperly connected Trigger",
+        "Machine is in low- or over-voltage protection",
+        "Machine is in the incorrect mode"
+      ],
+      "solutions": [
+        "If a warning screen appears in the LCD Display window, Welder may have overheated and shut down. Stop and wait with the Power Switch ON for the Welder to cool. The Welder automatically returns to service after cooling off. Reduce duration or frequency of welding periods to help reduce wear on the Welder. Refer to Duty Cycle (Duration of Use) on page 19.",
+        "Verify that the circuit is designed to supply the required input voltage and amperage as detailed on the Specifications table. If a warning screen appears in the LCD Display window, check the input voltage to ensure it is within specified range.",
+        "Ensure the gun connection is properly seated on machine. Qualified technician must check and secure/replace Trigger.",
+        "Check input voltage and ensure it falls within the specified range. If input voltage is correct, press Reset Button on back of machine to reset circuit breaker.",
+        "Ensure the correct process has been selected."
+      ]
+    },
+    {
+      "symptom": "LCD Display Does Not Light When Welder is Switched On",
+      "process": "",
+      "source_page": 43,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Unit is not connected to outlet properly",
+        "Outlet is unpowered",
+        "Plug does not have correct rating",
+        "Circuit breaker has tripped due to high input amperage",
+        "Input Power Cord is not seated properly"
+      ],
+      "solutions": [
+        "Verify the voltage at the outlet and the connection to the outlet.",
+        "Check circuit breaker/GFCI devices; if any are tripped, determine and remedy cause before resetting.",
+        "Make sure installed plug is correct rating. See Specifications on page 7.",
+        "Press Reset Button on back of machine to reset circuit breaker.",
+        "Ensure the twist lock input Power Cord is fully secured."
+      ]
+    },
+    {
+      "symptom": "Wire Feeds, but Arc Does Not Ignite",
+      "process": "",
+      "source_page": 43,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Improper ground connection",
+        "Improperly sized Contact Tip",
+        "Excessively worn Contact Tip",
+        "Dirty Contact Tip"
+      ],
+      "solutions": [
+        "Make certain that the workpiece is contacted properly by the Ground Clamp and that the workpiece is properly cleaned near the ground clamp and the welding location.",
+        "Verify that Contact Tip is the proper size for welding wire. If needed, replace Contact Tip with proper size and type.",
+        "Check that the hole in the tip is not deformed or enlarged. If needed, replace Contact Tip with proper size and type.",
+        "Properly clean Contact Tip."
+      ]
+    },
+    {
+      "symptom": "Porosity in the Weld Metal",
+      "process": "",
+      "source_page": 43,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Shielding gas bottle is empty",
+        "Not enough or too much shielding gas",
+        "Dirty workpiece",
+        "Gun is being used too far away from workpiece",
+        "Polarity is incorrect for the application",
+        "Dirty welding wire is introducing contamination into the weld"
+      ],
+      "solutions": [
+        "Check gas bottle and replenish as necessary.",
+        "Check gas regulator to ensure proper flow.",
+        "Clean workpiece down to bare metal.",
+        "Check CTWD (contact tip to work distance) for the proper procedure.",
+        "Check the polarity and ensure it is DCEP for MIG and DCEN for Flux-Cored.",
+        "Make certain that welding wire is clean and free of rust and residues."
+      ]
+    },
+    {
+      "symptom": "Welder Does Not Function When Switched On",
+      "process": "TIG/Stick",
+      "source_page": 44,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Tripped thermal protection device",
+        "Faulty or improperly connected Trigger",
+        "Ground Clamp not attached to workpiece",
+        "Shielding Gas not connected"
+      ],
+      "solutions": [
+        "Reduce duration or frequency of welding periods to help reduce wear on the welder. Refer to Duty Cycle (Duration of Use) on page 29",
+        "Qualified technician must check and secure/replace Trigger",
+        "Attach Ground Clamp to workpiece",
+        "Connect shielding gas to Welder"
+      ]
+    },
+    {
+      "symptom": "LCD Display Does Not Light When Welder is Switched On",
+      "process": "TIG/Stick",
+      "source_page": 44,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Unit is not connected to outlet properly",
+        "Outlet is unpowered"
+      ],
+      "solutions": [
+        "Verify the voltage at the outlet and the connection to the outlet",
+        "Check circuit breaker/GFCI devices; if any are tripped, determine and remedy cause before resetting. Verify that the circuit is designed to supply the required input amperage as detailed in Specifications on page 7"
+      ]
+    },
+    {
+      "symptom": "Weak Arc Strength",
+      "process": "TIG/Stick",
+      "source_page": 44,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Incorrect line voltage",
+        "Improper gauge or length of cord"
+      ],
+      "solutions": [
+        "Check the line voltage and, if insufficient, have a licensed electrician remedy the situation",
+        "Do not use an extension cord on this Welder. Use only one of the supplied power cords for this Welder or an identical replacement cord"
+      ]
+    },
+    {
+      "symptom": "Welding Arc Not Stable",
+      "process": "TIG/Stick",
+      "source_page": 44,
+      "source_doc": "owner-manual",
+      "causes": [
+        "Loose electrode cable or ground cable",
+        "Damaged electrode holder or loose connection within electrode holder",
+        "Adjust current setting",
+        "Shielding gas getting low"
+      ],
+      "solutions": [
+        "Check to ensure that all connections are tight",
+        "Have a qualified technician inspect and repair/replace as necessary",
+        "Make sure setting matches recommended setting on chart",
+        "Replace shielding gas cylinder"
+      ]
+    }
+  ],
+  "page_catalog": [
+    {
+      "doc": "owner-manual",
+      "page": 1,
+      "summary": "Cover page of the Vulcan OmniPro 220 Multiprocess Welding System owner's manual with safety warnings and contact information.",
+      "tags": [
+        "Vulcan",
+        "OmniPro 220",
+        "multiprocess welder",
+        "owner's manual",
+        "safety instructions",
+        "warranty",
+        "contact information"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 2,
+      "summary": "Safety warnings, symbol definitions, and general safety guidelines for welder operation.",
+      "tags": [
+        "safety",
+        "warnings",
+        "hazard symbols",
+        "general safety",
+        "personal injury prevention",
+        "electrical safety",
+        "fire hazard"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 3,
+      "summary": "Safety guidelines for fume and gas hazards from welding and plasma cutting, arc ray safety, and personal protective equipment requirements.",
+      "tags": [
+        "fume hazard",
+        "inhalation hazard",
+        "welding exhaust",
+        "plasma cutting",
+        "arc rays",
+        "eye protection",
+        "ventilation",
+        "respiratory protection",
+        "personal protective equipment",
+        "NIOSH",
+        "OSHA",
+        "cancer risk",
+        "heart disease",
+        "reproductive damage",
+        "arc ray burns",
+        "skin protection",
+        "welding helmet",
+        "shade number 10"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 4,
+      "summary": "This page contains electrical safety and fire safety guidelines for operating the Vulcan OmniPro 220 welder.",
+      "tags": [
+        "electrical_safety",
+        "fire_safety",
+        "arc_flash",
+        "electric_shock",
+        "personal_protective_equipment",
+        "grounding",
+        "GFCI",
+        "flammable_materials",
+        "slag",
+        "ventilation"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 5,
+      "summary": "Safety and maintenance instructions for welder use, care, and gas shielded welding cylinder safety procedures.",
+      "tags": [
+        "safety",
+        "welder use",
+        "welder care",
+        "maintenance",
+        "gas shielded welding",
+        "cylinder safety",
+        "controls",
+        "TIG stick"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 6,
+      "summary": "Safety warnings and reference information covering grounding, extension cords, replacement cords, and symbolology for the Vulcan OmniPro 220 welder.",
+      "tags": [
+        "grounding",
+        "electrical safety",
+        "power cord",
+        "extension cord",
+        "symbolology",
+        "hazard warnings",
+        "electric shock",
+        "fire hazard",
+        "arc ray hazard",
+        "pacemaker"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 7,
+      "summary": "Technical specifications for MIG, TIG, and Stick welding processes including power input, welding current ranges, duty cycles, and weldable materials.",
+      "tags": [
+        "specifications",
+        "MIG",
+        "TIG",
+        "Stick",
+        "duty_cycles",
+        "welding_current",
+        "power_input",
+        "weldable_materials"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 8,
+      "summary": "Front panel controls diagram for the Vulcan OmniPro 220 welder showing locations and labels of all control buttons, knobs, switches, sockets, and display elements.",
+      "tags": [
+        "front panel",
+        "controls",
+        "home button",
+        "back button",
+        "control knob",
+        "left knob",
+        "right knob",
+        "LCD display",
+        "power switch",
+        "MIG gun",
+        "spool gun",
+        "cable socket",
+        "gas outlet",
+        "positive socket",
+        "negative socket",
+        "wire feed power cable",
+        "storage compartment"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 9,
+      "summary": "Interior controls diagram showing the layout and identification of wire feed mechanism, spool assembly, and control components on the Vulcan OmniPro 220 welder.",
+      "tags": [
+        "interior controls",
+        "wire feed mechanism",
+        "spool knob",
+        "feed tensioner",
+        "idler arm",
+        "cold wire feed switch",
+        "wire inlet liner",
+        "foot pedal socket",
+        "wire feed control socket"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 10,
+      "summary": "Wire spool installation and setup instructions for MIG/Flux-Cored wire welding on the Vulcan OmniPro 220 welder.",
+      "tags": [
+        "wire spool installation",
+        "wire setup",
+        "MIG",
+        "flux-cored",
+        "spool loading",
+        "safety",
+        "door latch",
+        "wingnut",
+        "spacer"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 11,
+      "summary": "This page provides instructions for installing a 10-12 pound wire spool, including spool adapter placement, wire spool positioning, spacer installation, and feed tensioner adjustment.",
+      "tags": [
+        "wire spool installation",
+        "spool adapter",
+        "feed tensioner",
+        "wire feed",
+        "clockwise unwinding",
+        "maintenance procedure"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 12,
+      "summary": "Instructions for checking, removing, and replacing the feed roller to match the wire type and size being used.",
+      "tags": [
+        "feed roller",
+        "solid core wire",
+        "flux-cored wire",
+        "wire spool",
+        "maintenance",
+        "setup"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 13,
+      "summary": "This page provides instructions for connecting the Gun Cable Connector, Wire Feed Control Cable, and DCEN polarity setup for flux-cored gasless welding.",
+      "tags": [
+        "Gun Cable Connector",
+        "Wire Feed Control Cable",
+        "DCEN",
+        "Flux-Cored",
+        "Gasless",
+        "Cable connections",
+        "Polarity setup"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 14,
+      "summary": "Setup instructions for DCEP Direct Current Electrode Positive Wire configuration for solid core gas shielded welding, including cylinder setup and gas hose connections.",
+      "tags": [
+        "DCEP",
+        "polarity setup",
+        "gas shielded",
+        "solid core",
+        "direct current electrode positive",
+        "cylinder setup",
+        "gas hose",
+        "regulator"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 15,
+      "summary": "This page provides instructions for properly loading welding wire, setting up the wire feed system, and preparing the MIG gun for welding, with emphasis on maintaining proper wire tension to prevent tangling and feeding problems.",
+      "tags": [
+        "wire loading",
+        "wire feed",
+        "wire tension",
+        "MIG gun setup",
+        "contact tip",
+        "nozzle",
+        "wire spool",
+        "feed roller",
+        "idler arm",
+        "feed tensioner",
+        "stainless steel wire",
+        "solid wire",
+        "flux-cored wire"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 16,
+      "summary": "This page provides safety warnings about welding voltage, power cord plugging instructions, and step-by-step setup procedures for the MIG welder including wire feeding and power connection.",
+      "tags": [
+        "safety",
+        "danger warning",
+        "electric shock",
+        "power input",
+        "wire feed",
+        "cold wire feed switch",
+        "GFCI protection",
+        "grounding",
+        "power switch",
+        "MIG gun setup"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 17,
+      "summary": "This page covers wire drive tension adjustment, MIG gun assembly with contact tip installation, and optional spool gun setup procedures for the Vulcan OmniPro 220 welder.",
+      "tags": [
+        "wire drive tension",
+        "contact tip",
+        "MIG gun",
+        "spool gun setup",
+        "cable connector",
+        "gas hose",
+        "shielding gas",
+        "wire feed"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 18,
+      "summary": "This page provides critical safety warnings, equipment overview, and fundamental welding information for the Vulcan welder including protective gear requirements and welding process descriptions.",
+      "tags": [
+        "safety",
+        "protective gear",
+        "flux-cored welding",
+        "MIG welding",
+        "aluminum welding",
+        "practice welds",
+        "fire prevention",
+        "eye protection",
+        "respirator",
+        "welding fumes"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 19,
+      "summary": "This page explains duty cycle limitations, thermal protection features, and step-by-step instructions for setting up the welder and workpiece for welding.",
+      "tags": [
+        "duty cycle",
+        "thermal protection",
+        "setup",
+        "ground clamp",
+        "workpiece preparation",
+        "welding technique"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 20,
+      "summary": "This page provides initial setup instructions for the Vulcan OmniPro 220 welder, including power connection, control settings, wire/material configuration, and auto weld settings.",
+      "tags": [
+        "power switch",
+        "GFCI",
+        "circuit breaker",
+        "MIG stainless steel",
+        "wire diameter",
+        "material thickness",
+        "wire feed speed",
+        "voltage",
+        "gas settings",
+        "polarity",
+        "control panel"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 21,
+      "summary": "This page explains optional settings for the welder, gas shielding safety warnings, and initial gas cylinder setup procedures.",
+      "tags": [
+        "optional_settings",
+        "Run-In WFS",
+        "Inductance",
+        "Spot Timer",
+        "Recall Setting",
+        "Save Setting",
+        "gas shielding",
+        "asphyxiation warning",
+        "gas cylinder",
+        "flow gauge",
+        "safety",
+        "welding tips"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 22,
+      "summary": "This page demonstrates basic wire welding techniques including bead types, weld joint angles, gun positioning angles, and contact tip to work distance guidelines.",
+      "tags": [
+        "stringer bead",
+        "weave bead",
+        "MIG gun angles",
+        "fillet weld",
+        "butt weld",
+        "push angle",
+        "drag angle",
+        "CTWD",
+        "contact tip to work distance",
+        "wire welding technique",
+        "solid wire",
+        "shielding gas",
+        "flux-cored wire"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 23,
+      "summary": "This page provides post-welding procedures, duty cycle guidelines for 120VAC and 240VAC operation, and maintenance instructions for the Vulcan OmniPro 220 welder.",
+      "tags": [
+        "duty cycle",
+        "cooling",
+        "maintenance",
+        "MIG gun",
+        "wire spool",
+        "power switch",
+        "safety",
+        "post-welding"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 24,
+      "summary": "This page provides TIG welding setup instructions including cable connections and component identification for the Vulcan OmniPro 220 welder.",
+      "tags": [
+        "TIG",
+        "setup",
+        "cable connections",
+        "torch",
+        "ground clamp",
+        "foot pedal",
+        "shielding gas"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 25,
+      "summary": "Instructions for connecting shielding gas cylinders to the TIG torch and connecting the power cord to the welder.",
+      "tags": [
+        "shielding gas",
+        "argon cylinder",
+        "regulator",
+        "TIG torch",
+        "gas hose",
+        "power cord",
+        "120VAC",
+        "240VAC"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 26,
+      "summary": "Instructions for sharpening tungsten electrodes and assembling a TIG torch with collet, ceramic nozzle, and electrode components.",
+      "tags": [
+        "tungsten electrode",
+        "TIG torch assembly",
+        "electrode sharpening",
+        "safety",
+        "collet",
+        "ceramic nozzle",
+        "back cap"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 27,
+      "summary": "This page provides instructions for connecting cables and power cord to the Vulcan OmniPro 220 stick welder.",
+      "tags": [
+        "stick setup",
+        "ground clamp",
+        "electrode holder",
+        "cable connection",
+        "power cord",
+        "negative socket",
+        "positive socket"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 28,
+      "summary": "This page provides safety warnings and basic information for TIG/Stick welding operations, including required protective gear, welding process descriptions, and practice recommendations.",
+      "tags": [
+        "safety",
+        "TIG welding",
+        "Stick welding",
+        "protective gear",
+        "arc hazards",
+        "fire prevention",
+        "practice welds"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 29,
+      "summary": "This page covers duty cycle limitations, welder thermal protection, and step-by-step setup instructions for preparing workpieces and grounding the welder.",
+      "tags": [
+        "duty_cycle",
+        "thermal_protection",
+        "setup",
+        "workpiece_preparation",
+        "ground_clamp",
+        "welding_technique"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 30,
+      "summary": "TIG welding setup and control procedures for the Vulcan OmniPro 220 welder with safety warnings and initial configuration steps.",
+      "tags": [
+        "TIG",
+        "setup",
+        "safety",
+        "gas shielding",
+        "grounding",
+        "polarity",
+        "control panel",
+        "torch",
+        "rod diameter",
+        "material thickness"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 31,
+      "summary": "This page provides TIG welding operation procedures, optional settings instructions, and post-welding maintenance and safety guidelines for the Vulcan OmniPro 220 welder.",
+      "tags": [
+        "TIG welding",
+        "operation",
+        "safety",
+        "maintenance",
+        "torch operation",
+        "foot pedal",
+        "electrode",
+        "filler rod",
+        "protective gear",
+        "cool down",
+        "cleanup"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 32,
+      "summary": "Step-by-step setup instructions for the Stick welding process on the Vulcan OmniPro 220, including safety warnings, power connection, electrode holder placement, control settings, and polarity configuration.",
+      "tags": [
+        "stick welding",
+        "setup",
+        "electrode holder",
+        "polarity settings",
+        "safety",
+        "grounding clamp",
+        "electrode diameter",
+        "amperage adjustment"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 33,
+      "summary": "This page covers optional settings for the welder, arc ignition techniques for TIG stick welding, post-welding procedures, safety warnings, and maintenance steps.",
+      "tags": [
+        "optional_settings",
+        "hot_start",
+        "arc_force",
+        "recall_setting",
+        "save_setting",
+        "TIG_stick",
+        "arc_ignition",
+        "electrode_holder",
+        "duty_cycle",
+        "safety_warning",
+        "maintenance",
+        "cooling",
+        "storage"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 34,
+      "summary": "This page provides guidance on testing weld quality using the strike test method and cleaning welded joints properly.",
+      "tags": [
+        "strike test",
+        "weld examination",
+        "slag removal",
+        "weld quality",
+        "chipping hammer",
+        "wire brush",
+        "safety goggles",
+        "TIG welding"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 35,
+      "summary": "This page provides diagnosis guidance for wire weld penetration control, examples of common welding stick patterns, and maintenance procedures for proper workpiece heat management.",
+      "tags": [
+        "wire weld",
+        "penetration",
+        "heat control",
+        "travel speed",
+        "wire feed",
+        "CTWD",
+        "voltage",
+        "troubleshooting",
+        "welding diagrams",
+        "stick patterns"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 36,
+      "summary": "Troubleshooting guide for wire weld penetration control, bend at joint, slag coating, and weld adhesion issues with causes and solutions.",
+      "tags": [
+        "wire weld penetration",
+        "workpiece heat control",
+        "excess penetration",
+        "inadequate penetration",
+        "bend at joint",
+        "slag coating",
+        "weld adhesion",
+        "TIG stick",
+        "troubleshooting"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 37,
+      "summary": "Wire weld troubleshooting guide covering four common defects: porosity, excessive spatter, crooked/wavy bead, and burn-through with their causes and solutions.",
+      "tags": [
+        "wire_welding",
+        "troubleshooting",
+        "porosity",
+        "spatter",
+        "bead_defects",
+        "burn_through",
+        "MIG_welding",
+        "weld_quality"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 38,
+      "summary": "Stick weld diagnosis guide covering workpiece heat control, weld penetration, and common welding defects with corrective actions.",
+      "tags": [
+        "stick welding",
+        "weld penetration",
+        "heat control",
+        "inadequate penetration",
+        "burn-through",
+        "current adjustment",
+        "travel speed",
+        "arc length",
+        "troubleshooting",
+        "weld quality"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 39,
+      "summary": "Troubleshooting guide for stick welding penetration issues, weld adherence problems, and joint bending, with causes and solutions for each.",
+      "tags": [
+        "stick welding",
+        "penetration control",
+        "weld quality",
+        "heat control",
+        "workpiece clamping",
+        "welding technique",
+        "burn-through",
+        "inadequate penetration",
+        "weld adherence",
+        "joint bending"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 40,
+      "summary": "Stick welding troubleshooting guide covering slag removal, porosity, bead defects, spatter, burn-through issues and their causes and solutions.",
+      "tags": [
+        "stick welding",
+        "troubleshooting",
+        "slag",
+        "porosity",
+        "crooked bead",
+        "spatter",
+        "burn-through",
+        "weld defects"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 41,
+      "summary": "This page provides maintenance procedures for the Vulcan OmniPro 220 welder, including pre-use inspections, MIG gun nozzle and contact tip cleaning/inspection, and LCD screen cover replacement instructions.",
+      "tags": [
+        "maintenance",
+        "safety",
+        "MIG gun",
+        "nozzle cleaning",
+        "contact tip",
+        "inspection",
+        "LCD screen",
+        "welder care"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 42,
+      "summary": "Troubleshooting guide for MIG/Flux-Cored welding problems with causes and solutions organized by symptom categories.",
+      "tags": [
+        "troubleshooting",
+        "MIG welding",
+        "Flux-Cored welding",
+        "wire feed",
+        "welding arc",
+        "safety"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 43,
+      "summary": "Troubleshooting guide for common welder problems including non-function, display issues, arc ignition failures, and weld quality problems with their causes and solutions.",
+      "tags": [
+        "troubleshooting",
+        "maintenance",
+        "safety",
+        "diagnostics",
+        "welder problems",
+        "arc issues",
+        "weld quality"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 44,
+      "summary": "Troubleshooting guide for TIG/Stick welding with solutions for common problems including welder function, display, arc strength, and stability issues.",
+      "tags": [
+        "TIG welding",
+        "Stick welding",
+        "troubleshooting",
+        "safety",
+        "arc stability",
+        "electrode",
+        "ground clamp",
+        "shielding gas"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 45,
+      "summary": "Wiring schematic for the Vulcan OmniPro 220 welder showing internal electrical connections, components, and external wiring diagram for control, tie stick, and remote control systems.",
+      "tags": [
+        "wiring diagram",
+        "schematic",
+        "electrical connections",
+        "control circuit",
+        "power supply",
+        "welding tips",
+        "safety"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 46,
+      "summary": "Parts list and diagram identifying 61 components of the Vulcan OmniPro 220 welder with quantities and part numbers.",
+      "tags": [
+        "parts_list",
+        "components",
+        "replacement_parts",
+        "assembly_diagram",
+        "maintenance"
+      ]
+    },
+    {
+      "doc": "owner-manual",
+      "page": 47,
+      "summary": "Assembly diagram showing numbered components of the Vulcan OmniPro 220 welder with parts organized by category: Safety, Controls, Wire, Tig Stick, Welding Tips, and Maintenance.",
+      "tags": [
+        "assembly",
+        "parts diagram",
+        "component identification",
+        "numbered parts",
+        "welder assembly"
+      ]
+    },
+    {
+      "doc": "quick-start-guide",
+      "page": 1,
+      "summary": "Quick start guide for the Vulcan OmniPro 220 welder with 6 essential setup and operation steps.",
+      "tags": [
+        "setup",
+        "quick start",
+        "wire spool",
+        "feed mechanism",
+        "nozzle",
+        "contact tip",
+        "wire feed tension",
+        "welding instructions"
+      ]
+    },
+    {
+      "doc": "quick-start-guide",
+      "page": 2,
+      "summary": "Quick start guide showing cable setup instructions for Stick, MIG, Flux-Cored, and TIG welding processes on the Vulcan OmniPro 220 welder.",
+      "tags": [
+        "cable setup",
+        "stick welding",
+        "MIG welding",
+        "TIG welding",
+        "flux-cored",
+        "ground clamp",
+        "electrode holder",
+        "polarity",
+        "wire feed"
+      ]
+    },
+    {
+      "doc": "selection-chart",
+      "page": 1,
+      "summary": "A comprehensive decision-tree guide for selecting the appropriate welder type and process based on skill level, material type, thickness, and application requirements.",
+      "tags": [
+        "welder selection",
+        "skill level",
+        "shielding gas",
+        "material type",
+        "thickness gauge",
+        "applications",
+        "weld cleanliness",
+        "flux-cored",
+        "MIG",
+        "stick",
+        "TIG",
+        "duty cycle"
+      ]
+    }
+  ],
+  "video_tips": [
+    {
+      "tip": "Choose process and material thickness, then let synergetic settings configure the machine automatically.",
+      "category": "setup",
+      "process": "general",
+      "detail": "The OmniPro 220 uses synergetic settings similar to Hobart Auto-set welders."
+    },
+    {
+      "tip": "Flux-core setup takes approximately 4.5 minutes from start to finish with a new spool.",
+      "category": "setup",
+      "process": "flux-cored",
+      "detail": "Includes spool installation and lead connection."
+    },
+    {
+      "tip": "Use .035 Vulcan flux-core wire for the tested applications.",
+      "category": "settings",
+      "process": "flux-cored",
+      "detail": "Settings ranged across the machine's 12-10 gauge material thickness options."
+    },
+    {
+      "tip": "Adjust wire speed slower for 12-gauge equivalent and faster for 10-gauge equivalent material.",
+      "category": "settings",
+      "process": "flux-cored",
+      "detail": "When welding material outside the exact thickness range (e.g., 1/8 inch coupons)."
+    },
+    {
+      "tip": "MIG setup takes approximately 5.5 minutes total.",
+      "category": "setup",
+      "process": "MIG",
+      "detail": null
+    },
+    {
+      "tip": "Switch the drive roller from knurled wheel to V-groove when changing from flux-core to MIG.",
+      "category": "setup",
+      "process": "MIG",
+      "detail": "The OmniPro comes with both roller types."
+    },
+    {
+      "tip": "Use 100% CO2 as shielding gas for MIG welding on this machine.",
+      "category": "settings",
+      "process": "MIG",
+      "detail": null
+    },
+    {
+      "tip": "Switch welding leads to correct polarity when changing processes, or welds will be poor quality.",
+      "category": "setup",
+      "process": "MIG",
+      "detail": "This is critical\u2014incorrect polarity produces ugly welds."
+    },
+    {
+      "tip": "Use .035 solid-core Vulcan wire for MIG welding.",
+      "category": "settings",
+      "process": "MIG",
+      "detail": null
+    },
+    {
+      "tip": "Stick electrode setup takes only 30 seconds\u2014just ground and electrode holder connections.",
+      "category": "setup",
+      "process": "stick",
+      "detail": null
+    },
+    {
+      "tip": "Select 60 or 70 series rods when prompted by the machine; capability with 6010 rods is uncertain.",
+      "category": "settings",
+      "process": "stick",
+      "detail": "Used 7018 eighth-inch rods in testing."
+    },
+    {
+      "tip": "Use 7018 eighth-inch rods for welding 3/16 inch flat plate and 1/8 inch fillet joints.",
+      "category": "settings",
+      "process": "stick",
+      "detail": null
+    },
+    {
+      "tip": "TIG setup is the longest at approximately 8 minutes due to torch setup, tungsten grinding, and gas hookup.",
+      "category": "setup",
+      "process": "TIG",
+      "detail": null
+    },
+    {
+      "tip": "Use lift-style arc start for TIG: touch tungsten to workpiece, step foot pedal, lift to create arc.",
+      "category": "technique",
+      "process": "TIG",
+      "detail": "High-frequency start is not available on this model."
+    },
+    {
+      "tip": "Control TIG amperage with the foot pedal during welding.",
+      "category": "technique",
+      "process": "TIG",
+      "detail": null
+    },
+    {
+      "tip": "You can run TIG without a foot pedal using scratch start, but a pedal provides amperage control.",
+      "category": "setup",
+      "process": "TIG",
+      "detail": null
+    },
+    {
+      "tip": "The OmniPro's synergetic settings for all processes produce good quality welds immediately.",
+      "category": "technique",
+      "process": "general",
+      "detail": "Welds can be produced within minutes of setup without manual adjustments."
+    }
+  ]
+}

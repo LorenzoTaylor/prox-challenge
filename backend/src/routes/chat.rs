@@ -20,12 +20,16 @@ use crate::{AppState, prompts::build_system_prompt};
 #[derive(Deserialize)]
 pub struct ChatRequest {
     pub messages: Vec<Message>,
+    pub panel_width: Option<u32>,
+    pub panel_height: Option<u32>,
 }
 
 #[derive(Deserialize)]
 pub struct Message {
     pub role: String,
     pub content: String,
+    pub image_data: Option<String>,
+    pub image_media_type: Option<String>,
 }
 
 pub fn router(state: Arc<AppState>) -> Router {
@@ -89,20 +93,35 @@ async fn stream_chat(
     eprintln!("Injecting {} relevant page images for query: {:?}", relevant.len(), &last_user_query[..last_user_query.len().min(60)]);
 
     for (i, msg) in req.messages.iter().enumerate() {
-        if i == 0 && msg.role == "user" && !relevant.is_empty() {
-            let mut content: Vec<Value> = relevant
-                .iter()
-                .map(|img| {
-                    json!({
+        let has_pdf_pages = i == 0 && msg.role == "user" && !relevant.is_empty();
+        let has_user_image = msg.image_data.is_some();
+
+        if has_pdf_pages || has_user_image {
+            let mut content: Vec<Value> = vec![];
+            // PDF manual pages — first user message only
+            if has_pdf_pages {
+                for img in &relevant {
+                    content.push(json!({
                         "type": "image",
                         "source": {
                             "type": "base64",
                             "media_type": "image/png",
                             "data": img.base64
                         }
-                    })
-                })
-                .collect();
+                    }));
+                }
+            }
+            // User-uploaded image
+            if let (Some(data), Some(media_type)) = (&msg.image_data, &msg.image_media_type) {
+                content.push(json!({
+                    "type": "image",
+                    "source": {
+                        "type": "base64",
+                        "media_type": media_type,
+                        "data": data
+                    }
+                }));
+            }
             content.push(json!({"type": "text", "text": msg.content}));
             messages.push(json!({"role": "user", "content": content}));
         } else {
@@ -110,7 +129,11 @@ async fn stream_chat(
         }
     }
 
-    let system_prompt = build_system_prompt(state.structured_facts.as_deref());
+    let system_prompt = build_system_prompt(
+        state.structured_facts.as_deref(),
+        req.panel_width.unwrap_or(600),
+        req.panel_height.unwrap_or(500),
+    );
 
     let body = json!({
         "model": "claude-sonnet-4-6",

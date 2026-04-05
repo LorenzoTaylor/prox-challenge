@@ -24,7 +24,9 @@ function ImageSurface({ artifact }: { artifact: Artifact }) {
   useEffect(() => {
     const img = imgRef.current
     const canvas = canvasRef.current
-    if (!img || !canvas) return
+    // Only annotate user-uploaded images (data URLs), not surfaced page images
+    const isUpload = artifact.src?.startsWith('data:')
+    if (!img || !canvas || !isUpload) return
 
     function draw() {
       if (!img || !canvas) return
@@ -174,6 +176,7 @@ function ImageGenerated({ artifact }: { artifact: Artifact }) {
 export function ArtifactPanel({ artifact }: Props) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
+  // Send artifact content to iframe on load
   useEffect(() => {
     const iframe = iframeRef.current
     if (!iframe) return
@@ -188,6 +191,38 @@ export function ArtifactPanel({ artifact }: Props) {
     iframe.addEventListener('load', handleLoad)
     return () => iframe.removeEventListener('load', handleLoad)
   }, [artifact])
+
+  // Handle GENERATE_IMAGE requests from sandboxed React components.
+  // The component posts { type: 'GENERATE_IMAGE', id, prompt } and we respond
+  // with { type: 'IMAGE_READY', id, url } or { type: 'IMAGE_ERROR', id, error }.
+  useEffect(() => {
+    async function handleMessage(e: MessageEvent) {
+      if (e.data?.type !== 'GENERATE_IMAGE') return
+      const { id, prompt } = e.data as { id: string; prompt: string }
+
+      try {
+        const res = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt }),
+        })
+        if (!res.ok) throw new Error(await res.text())
+        const data = await res.json() as { url: string }
+        iframeRef.current?.contentWindow?.postMessage(
+          { type: 'IMAGE_READY', id, url: data.url },
+          '*'
+        )
+      } catch (err) {
+        iframeRef.current?.contentWindow?.postMessage(
+          { type: 'IMAGE_ERROR', id, error: String(err) },
+          '*'
+        )
+      }
+    }
+
+    window.addEventListener('message', handleMessage)
+    return () => window.removeEventListener('message', handleMessage)
+  }, [])
 
   if (artifact.type === 'image/surface') {
     return <ImageSurface artifact={artifact} />

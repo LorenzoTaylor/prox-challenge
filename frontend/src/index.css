@@ -14,6 +14,21 @@
   animation: fade-in 0.5s ease-out forwards;
 }
 
+@keyframes waveform-pulse {
+  0%, 100% { transform: scaleY(1); }
+  50%       { transform: scaleY(var(--wf-peak, 2)); }
+}
+
+.wf-bar {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.1s;
+}
+
+.wf-bar-active {
+  animation: waveform-pulse 0.65s ease-in-out infinite;
+}
+
 @keyframes sparkle-loop {
   0%, 100% { opacity: 0; transform: scale(0.7); }
   40%, 60% { opacity: 1; transform: scale(1); }

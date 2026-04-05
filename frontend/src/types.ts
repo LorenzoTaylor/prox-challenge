@@ -22,6 +22,9 @@ export interface Message {
   role: 'user' | 'assistant'
   content: string
   artifact?: Artifact
+  imageData?: string      // raw base64, no data-URL prefix
+  imageMediaType?: string // e.g. "image/jpeg"
+  imagePreview?: string   // data URL used for display
 }
 
 export interface ChatRequest {

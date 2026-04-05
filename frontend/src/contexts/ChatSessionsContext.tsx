@@ -1,5 +1,7 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 import type { Message, Artifact } from '@/types'
+
+const STORAGE_KEY = 'prox-sessions'
 
 interface ChatSession {
   id: string
@@ -18,8 +20,21 @@ interface ChatSessionsContextValue {
 
 const ChatSessionsContext = createContext<ChatSessionsContextValue | null>(null)
 
+function loadSessions(): ChatSession[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    return raw ? JSON.parse(raw) : []
+  } catch {
+    return []
+  }
+}
+
 export function ChatSessionsProvider({ children }: { children: React.ReactNode }) {
-  const [sessions, setSessions] = useState<ChatSession[]>([])
+  const [sessions, setSessions] = useState<ChatSession[]>(loadSessions)
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions))
+  }, [sessions])
 
   function addSession(id: string, title: string) {
     setSessions(prev => {

@@ -8,7 +8,7 @@ use std::sync::atomic::AtomicU32;
 use std::time::{Duration, Instant};
 use tokio::sync::{Mutex, Semaphore};
 use tower_http::cors::{CorsLayer, Any};
-use tower_http::services::ServeDir;
+use tower_http::services::{ServeDir, ServeFile};
 
 mod prompts;
 mod routes;
@@ -57,6 +57,7 @@ impl RateLimiter {
 pub struct AppState {
     pub api_key: String,
     pub fal_key: Option<String>,
+    pub eleven_key: Option<String>,
     pub images: Vec<PageImage>,
     pub page_meta: Vec<PageMeta>,
     pub structured_facts: Option<String>,
@@ -257,6 +258,24 @@ async fn load_structured_facts() -> (Option<String>, Vec<PageMeta>) {
         }
     }
 
+    if let Some(tips) = facts["video_tips"].as_array() {
+        if !tips.is_empty() {
+            output.push_str("=== VIDEO TIPS (experienced welder demo) ===\n");
+            for tip in tips {
+                let text = tip["tip"].as_str().unwrap_or("");
+                let process = tip["process"].as_str().unwrap_or("general");
+                let category = tip["category"].as_str().unwrap_or("technique");
+                let detail = tip["detail"].as_str().unwrap_or("");
+                if detail.is_empty() {
+                    output.push_str(&format!("[{category}/{process}] {text}\n"));
+                } else {
+                    output.push_str(&format!("[{category}/{process}] {text} — {detail}\n"));
+                }
+            }
+            output.push('\n');
+        }
+    }
+
     if let Some(pages) = facts["page_catalog"].as_array() {
         if !pages.is_empty() {
             output.push_str("=== MANUAL PAGE CATALOG ===\n");
@@ -294,12 +313,17 @@ async fn main() -> anyhow::Result<()> {
     if fal_key.is_none() {
         println!("Note: FAL_KEY not set — image generation disabled");
     }
+    let eleven_key = std::env::var("ELEVEN_KEY").ok();
+    if eleven_key.is_none() {
+        println!("Note: ELEVEN_KEY not set — voice TTS disabled");
+    }
 
     let images = load_page_images().await;
     let (structured_facts, page_meta) = load_structured_facts().await;
     let state = Arc::new(AppState {
         api_key,
         fal_key,
+        eleven_key,
         images,
         page_meta,
         structured_facts,
@@ -317,10 +341,16 @@ async fn main() -> anyhow::Result<()> {
         .route("/health", get(health))
         .nest("/api", routes::router(state))
         .nest_service("/pages", ServeDir::new("scripts/pages"))
+        .fallback_service(
+            ServeDir::new("frontend/dist")
+                .not_found_service(ServeFile::new("frontend/dist/index.html"))
+        )
         .layer(cors);
 
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3001").await?;
-    println!("Backend listening on http://localhost:3001");
+    let port = std::env::var("PORT").unwrap_or_else(|_| "3001".to_string());
+    let addr = format!("0.0.0.0:{port}");
+    let listener = tokio::net::TcpListener::bind(&addr).await?;
+    println!("Backend listening on http://0.0.0.0:{port}");
     axum::serve(listener, app.into_make_service_with_connect_info::<SocketAddr>()).await?;
 
     Ok(())

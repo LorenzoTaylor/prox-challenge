@@ -10,11 +10,9 @@ backend/target
 # Environment
 .env
 
-# PDF preprocessing output
-scripts/pages
-scripts/page_index.json
+# PDF preprocessing output — commit data files, ignore SQLite db and raw transcript
 scripts/knowledge.db
-scripts/structured_facts.json
+scripts/*.vtt
 
 # Planning / internal docs
 handoffs/
