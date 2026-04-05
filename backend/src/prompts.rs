@@ -69,48 +69,60 @@ One artifact per message. Prefer inline text when an artifact isn't needed.
 All SVG diagrams must follow these standards:
 
 STRUCTURE
-- Always use viewBox, never width/height attributes on the root element
+- Declare the viewBox explicitly upfront (e.g. viewBox="0 0 560 380") — choose dimensions that fit the content
+- Never use width/height attributes on the root element
+- First children of <svg>: <title> (short name) and <desc> (one sentence), plus role="img" aria-labelledby="svg-title svg-desc" on the root
 - Define arrowhead markers and reusable symbols in <defs> at the top
 - Group related elements with <g id="..."> for logical organisation
 - Use <symbol> + <use> for any shape that repeats (sockets, connectors, cable ends)
+- Keep files lean — no redundant path nodes, no unnecessary transforms
+
+COLORS — use CSS custom properties so the SVG is theme-aware
+- Ink/stroke: stroke="var(--svg-ink, #1a1a1a)"
+- Gold accent: stroke="var(--svg-accent, #C4973B)" or fill="var(--svg-accent, #C4973B)"
+- Panel face: fill="var(--svg-surface, #F5F5F0)"
+- Background rect: fill="var(--svg-bg, #FFFFFF)"
+- Arrowhead fill: fill="var(--svg-ink, #1a1a1a)"
+- Exception: use literal color values for positive/negative terminal markers where color carries semantic meaning
 
 VISUAL STYLE — outline/diagram, not filled shapes
-- Background: white (#FFFFFF) or off-white (#FAFAF7) rect filling the viewBox
-- Stroke color: #1a1a1a (near-black ink). No pure black (#000000), no grays for main strokes
-- Stroke widths — use three weights consistently:
+- Stroke widths — three weights consistently:
   - Heavy (2.5): major outlines, panel borders, cable bodies
   - Medium (1.5): component details, socket rings, connector bodies
   - Light (0.75): leader lines, dimension lines, hatching
 - stroke-linecap="round" and stroke-linejoin="round" on all paths
-- Fills: use "none" for almost everything. Exceptions: white (#FFFFFF) fill for text backgrounds/callout boxes, very light tint (#F5F5F0) for panel faces to separate from background
-- NO heavy color fills. Accent with the gold (#C4973B) sparingly — e.g. a thin border on a callout box or a positive terminal marker
+- Fills: "none" for almost everything. Exceptions: white for callout backgrounds, light tint for panel faces
+- No heavy color fills. Gold accent used sparingly — callout borders, positive terminal marker only
 
 CABLES & CONNECTORS
-- Draw cables as thick rounded-rect or path shapes (stroke, no fill) with the cable body slightly curved, not perfectly straight
-- Label each cable inline along its length or with a leader line
+- Draw cables as thick path shapes (stroke, no fill) with the body slightly curved, not perfectly straight
+- Label each cable inline or with a leader line
 - Positive cables: label "(+)" near the terminal end
 - Negative cables: label "(-)" near the terminal end
-- Show direction of insertion with a filled arrowhead pointing toward the socket
+- Show insertion direction with a filled arrowhead pointing toward the socket
 
 LABELS & TEXT
-- Font: font-family="monospace" for all technical labels. font-family="Georgia, serif" for titles
-- Title: 16-18px, font-weight bold, at the top
-- Component labels: 11-12px, anchored with text-anchor="middle" or "start" as appropriate
-- Leader lines: thin (0.75) dashed line (stroke-dasharray="3 2") from label to component, ending with a small filled circle (r=2) at the target point
-- Callout boxes: rounded rect (rx="3") with white fill and light stroke, text inside
+- font-family="monospace" for technical labels. font-family="Georgia, serif" for titles
+- Title: 16-18px bold at the top
+- Component labels: 11-12px, text-anchor="middle" or "start" as appropriate
+- Leader lines: 0.75 dashed (stroke-dasharray="3 2") ending with a filled circle (r=2) at the target
+- Callout boxes: rounded rect (rx="3") white fill, light stroke
 
-ARROWHEADS — define in defs, reference by id:
+ARROWHEADS — define in defs:
 <defs>
   <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-    <path d="M0,0 L0,6 L8,3 z" fill="#1a1a1a"/>
+    <path d="M0,0 L0,6 L8,3 z" fill="var(--svg-ink, #1a1a1a)"/>
   </marker>
 </defs>
-Then use: <line ... marker-end="url(#arrow)"/>
+Use: <line ... marker-end="url(#arrow)"/>
 
-LAYOUT
-- Leave generous padding (40px+) around all content inside the viewBox
-- Socket/terminal symbols: draw as a circle (r=12-16) with the +/- symbol centered inside, plus a small outer ring for the bezel
-- Group all elements for a single "mode" or "process" so the diagram is easy to read at a glance
+LAYOUT & LABEL PLACEMENT — follow these rules to avoid text collisions
+- Reserve dedicated left and right margin zones (minimum 130px wide each) exclusively for callout labels. The main drawing must fit entirely within the center column. Nothing from the drawing bleeds into the margin zones; no labels sit inside the drawing area.
+- Place all callout labels in numbered boxes (rounded rect, white fill, light stroke) in the left or right margin — left margin for components on the left half, right margin for components on the right half. Space boxes at least 38px apart vertically to prevent overlap.
+- Connect each callout box to its component with a single dashed leader line (stroke-dasharray="4 3", stroke-width="0.75"). The line runs from the box edge straight to the component center — route horizontally then vertically (L-shape) to avoid crossing other elements.
+- CENTERING: always compute centers mathematically before placing an element. If a rect spans x=80 to x=480, its horizontal center is exactly (80+480)/2 = 280. Apply this to every LCD display, knob row, label row, and symmetric group — never guess a center coordinate.
+- Socket/terminal symbols: circle (r=12-16) with +/- centered, small outer ring for the bezel
+- Group all elements for a single process so the diagram reads at a glance
 </svg_best_practices>
 </artifacts_info>"##;
 

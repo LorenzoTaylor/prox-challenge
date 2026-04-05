@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { X } from 'lucide-react'
 import type { Message, Artifact } from '@/types'
 import { parseArtifact } from '@/utils/parseArtifact'
 import { ArtifactPanel } from '@/components/ArtifactPanel'
@@ -10,6 +11,48 @@ import { SparkleIcon } from '@/components/SparkleIcon'
 import { VoicePanel } from '@/components/VoicePanel'
 import { useChatSessions } from '@/contexts/ChatSessionsContext'
 import { useVoice } from '@/hooks/useVoice'
+
+const MAX_CHARS = 2000
+
+function parseBannerMessage(errMsg: string): string {
+  const m = errMsg.toLowerCase()
+  if (m.includes('maximum request limit') || m.includes('demo request limit'))
+    return 'Demo request limit reached — this instance has a cap to control API costs'
+  if (m.includes('rate limit') || m.includes('too many requests') || m.includes('429'))
+    return 'Rate limit reached — please wait a moment before trying again'
+  if (m.includes('overloaded') || m.includes('529'))
+    return 'Anthropic is overloaded right now — try again in a few seconds'
+  if (m.includes('too many tokens') || m.includes('context_length') || m.includes('context window'))
+    return 'Conversation is too long — try starting a new chat'
+  if (m.includes('401') || m.includes('unauthorized'))
+    return 'API authentication error — check the server API key'
+  return 'Something went wrong — please try again'
+}
+
+function StatusBanner({ message, fading, onDismiss }: {
+  message: string
+  fading: boolean
+  onDismiss: () => void
+}) {
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const f = requestAnimationFrame(() => setVisible(true))
+    return () => cancelAnimationFrame(f)
+  }, [])
+  return (
+    <div
+      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-2.5 bg-white border border-gray-200 shadow-sm text-sm rounded-full transition-opacity duration-300 pointer-events-auto whitespace-nowrap ${
+        fading || !visible ? 'opacity-0' : 'opacity-100'
+      }`}
+      style={{ fontFamily: 'Instrument Serif, serif' }}
+    >
+      <span>{message}</span>
+      <button onClick={onDismiss} aria-label="Dismiss" className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
+        <X size={13} />
+      </button>
+    </div>
+  )
+}
 
 function filterStreamingContent(text: string): string {
   return text
@@ -64,13 +107,52 @@ export function ChatPage() {
   const [activeArtifact, setActiveArtifact] = useState<Artifact | null>(null)
   const [voiceMode, setVoiceMode] = useState(false)
   const [pendingImage, setPendingImage] = useState<{ preview: string; data: string; mediaType: string } | null>(null)
+  const [bannerMsg, setBannerMsg] = useState<string | null>(null)
+  const [bannerFading, setBannerFading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const rightPanelRef = useRef<HTMLDivElement>(null)
   const sessionRegistered = useRef(false)
   const shouldAutoSubmit = useRef(false)
   const pendingVoiceSpeak = useRef<string | null>(null)
+  const bannerTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const overCharLimit = useRef(false)
   // Maps message id → preview data URL so image/surface src="user-upload" can be resolved
   const uploadedImagePreviews = useRef<Map<string, string>>(new Map())
+
+  function showBanner(msg: string) {
+    if (bannerTimer.current) clearTimeout(bannerTimer.current)
+    setBannerMsg(msg)
+    setBannerFading(false)
+    bannerTimer.current = setTimeout(() => {
+      setBannerFading(true)
+      setTimeout(() => setBannerMsg(null), 350)
+    }, 5000)
+  }
+
+  function dismissBanner() {
+    if (bannerTimer.current) clearTimeout(bannerTimer.current)
+    setBannerFading(true)
+    setTimeout(() => setBannerMsg(null), 350)
+  }
+
+  function handleInputChange(val: string) {
+    const over = val.length > MAX_CHARS
+    if (over && !overCharLimit.current) {
+      showBanner(`Message too long — max ${MAX_CHARS.toLocaleString()} characters`)
+    } else if (!over && overCharLimit.current) {
+      dismissBanner()
+    }
+    overCharLimit.current = over
+    setInput(val)
+  }
+
+  function handleImageAttach(preview: string, data: string, mediaType: string) {
+    if (pendingImage) {
+      showBanner('Only one image at a time — remove the current one first')
+      return
+    }
+    setPendingImage({ preview, data, mediaType })
+  }
 
   const handleVoiceTranscript = useCallback((text: string) => {
     setInput(text)
@@ -136,6 +218,10 @@ export function ChatPage() {
   async function handleSubmit() {
     const trimmed = input.trim()
     if (!trimmed || streaming) return
+    if (trimmed.length > MAX_CHARS) {
+      showBanner(`Message too long — max ${MAX_CHARS.toLocaleString()} characters`)
+      return
+    }
 
     if (!sessionRegistered.current && chatId) {
       addSession(chatId, trimmed)
@@ -224,7 +310,10 @@ export function ChatPage() {
               const updated = [...prev]
               const last = updated[updated.length - 1]
               if (last.role === 'assistant') {
-                const stripped = last.content.replace(/<thinking>[\s\S]*?<\/thinking>/gi, '').trim()
+                const stripped = last.content
+                  .replace(/<thinking>[\s\S]*?<\/thinking>/gi, '')
+                  .replace(/<thinking>[\s\S]*$/, '')
+                  .trim()
                 const { cleanText, artifact } = parseArtifact(stripped)
                 updated[updated.length - 1] = { ...last, content: cleanText, artifact: artifact ?? undefined }
                 if (artifact) setActiveArtifact(resolveArtifact(artifact, updated))
@@ -239,15 +328,13 @@ export function ChatPage() {
         }
       }
     } catch (err) {
+      const errMsg = err instanceof Error ? err.message : String(err)
+      showBanner(parseBannerMessage(errMsg))
+      // Remove the empty assistant placeholder; keep partial content if streaming had started
       setMessages(prev => {
         const updated = [...prev]
         const last = updated[updated.length - 1]
-        if (last.role === 'assistant') {
-          updated[updated.length - 1] = {
-            ...last,
-            content: last.content + `\n\n[Error: ${err instanceof Error ? err.message : String(err)}]`,
-          }
-        }
+        if (last.role === 'assistant' && !last.content) updated.pop()
         return updated
       })
     } finally {
@@ -272,13 +359,13 @@ export function ChatPage() {
   const chatInput = (
     <ChatInput
       value={input}
-      onChange={setInput}
+      onChange={handleInputChange}
       onSubmit={handleSubmit}
       disabled={streaming}
       hasMessages={true}
       onVoiceMode={enterVoiceMode}
       attachedImage={pendingImage}
-      onImageAttach={(preview, data, mediaType) => setPendingImage({ preview, data, mediaType })}
+      onImageAttach={handleImageAttach}
       onImageRemove={() => setPendingImage(null)}
     />
   )
@@ -345,9 +432,14 @@ export function ChatPage() {
     />
   )
 
+  const banner = bannerMsg ? (
+    <StatusBanner message={bannerMsg} fading={bannerFading} onDismiss={dismissBanner} />
+  ) : null
+
   if (showRightPanel) {
     return (
       <div className="h-full bg-background text-foreground flex min-h-0">
+        {banner}
         <div className="flex flex-col h-full min-h-0 px-6 pt-6 pb-6" style={{ width: '50%' }}>
           {voiceMode ? voicePanel : (
             <>
@@ -370,6 +462,7 @@ export function ChatPage() {
   if (voiceMode) {
     return (
       <div className="h-full bg-background text-foreground flex flex-col min-h-0">
+        {banner}
         {voicePanel}
       </div>
     )
@@ -377,6 +470,7 @@ export function ChatPage() {
 
   return (
     <div className="h-full bg-background text-foreground flex flex-col min-h-0">
+      {banner}
       <div className="flex flex-col flex-1 min-h-0 mx-auto w-full max-w-3xl px-6 pt-6 pb-6">
         {messageList}
         {chatInput}
