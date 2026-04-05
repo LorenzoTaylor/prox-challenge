@@ -117,7 +117,7 @@ function ImageSurface({ artifact }: { artifact: Artifact }) {
       {artifact.title && (
         <div className="text-sm font-medium text-gray-500 mb-2">{artifact.title}</div>
       )}
-      <div className="flex-1 overflow-auto flex items-start justify-center p-2">
+      <div className="flex-1 overflow-auto flex items-start justify-center p-2 pr-0">
         <div className="relative inline-block">
           <img
             ref={imgRef}
@@ -236,7 +236,7 @@ export function ArtifactPanel({ artifact }: Props) {
     return (
       <div className="h-full flex flex-col">
         {artifact.title && <div className="text-sm font-medium text-gray-500 mb-2">{artifact.title}</div>}
-        <pre className="flex-1 overflow-auto p-4 bg-gray-50 rounded text-sm font-mono m-0"><code>{artifact.content}</code></pre>
+        <pre className="flex-1 overflow-auto p-4 pr-0 bg-gray-50 rounded text-sm font-mono m-0"><code>{artifact.content}</code></pre>
       </div>
     )
   }

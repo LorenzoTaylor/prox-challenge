@@ -379,7 +379,7 @@ export function ChatPage() {
   )
 
   const messageList = (
-    <div className="flex-1 overflow-y-auto flex flex-col gap-6 pb-4">
+    <div className="flex-1 overflow-y-auto flex flex-col gap-6 pb-4 pr-6">
       {messages.map((msg, i) => {
         const isStreamingThis = streaming && i === messages.length - 1 && msg.role === 'assistant'
         const displayContent = isStreamingThis ? filterStreamingContent(msg.content) : msg.content
@@ -448,7 +448,7 @@ export function ChatPage() {
     return (
       <div className="h-full bg-background text-foreground flex min-h-0">
         {banner}
-        <div className="flex flex-col h-full min-h-0 px-6 pt-6 pb-6" style={{ width: '50%' }}>
+        <div className="flex flex-col h-full min-h-0 pl-6 pt-6 pb-6" style={{ width: '50%' }}>
           {voiceMode ? voicePanel : (
             <>
               {messageList}
@@ -459,7 +459,7 @@ export function ChatPage() {
         <div className="w-px bg-border" />
         <div ref={rightPanelRef} className="flex-1 min-h-0">
           {activeArtifact
-            ? <div key={activeArtifact.identifier} className="h-full p-6 animate-fade-in"><ArtifactPanel artifact={activeArtifact} /></div>
+            ? <div key={activeArtifact.identifier} className="h-full pl-6 pt-6 pb-6 animate-fade-in"><ArtifactPanel artifact={activeArtifact} /></div>
             : <GeneratingPanel key="generating" />
           }
         </div>
@@ -479,7 +479,7 @@ export function ChatPage() {
   return (
     <div className="h-full bg-background text-foreground flex flex-col min-h-0">
       {banner}
-      <div className="flex flex-col flex-1 min-h-0 mx-auto w-full max-w-3xl px-6 pt-6 pb-6">
+      <div className="flex flex-col flex-1 min-h-0 mx-auto w-full max-w-3xl pl-6 pt-6 pb-6">
         {messageList}
         {chatInput}
       </div>
