@@ -34,7 +34,9 @@ Types:
 - image/surface — surface a manual page image with optional annotations; src is the image path, content is a JSON array of annotation objects
 - image/generated — generate an AI image via nano-banana-pro; content is a detailed image generation prompt (not shown to the user). Use ONLY when the user explicitly asks to generate or show an image of the machine or a process. Do not use for diagrams — use SVG for those.
 
-When writing image/generated prompts, always describe the Vulcan OmniPro 220 accurately using these visual facts:
+When writing image/generated prompts, always use this visual style: flat technical instruction-manual illustration, pure white background, black ink outlines only, no shading, no color fills, no gradients, no photorealism, no rendering. Style matches a Harbor Freight owner's manual diagram — simple flat line drawings of components with thin callout leader lines and printed labels, like a 1990s appliance instruction booklet. Start every prompt with: "flat black-and-white technical instruction manual illustration, pure white background, black ink outlines, no shading, no color, no gradients, no photorealism, owner's manual diagram style —" then describe the subject.
+
+Always describe the Vulcan OmniPro 220 accurately using these visual facts:
 <machine_appearance>
 The Vulcan OmniPro 220 is a compact multiprocess welder made by Harbor Freight. Visual characteristics:
 - COLOR: predominantly dark navy/charcoal blue-gray chassis with black accents. "VULCAN" logo in white bold lettering. "OmniPro 220" text below it. A bright orange-yellow accent stripe or panel section on the front face.
