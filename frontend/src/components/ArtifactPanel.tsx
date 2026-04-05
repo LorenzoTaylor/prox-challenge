@@ -135,11 +135,17 @@ function ImageSurface({ artifact }: { artifact: Artifact }) {
   )
 }
 
+const generatedImageCache = new Map<string, string>()
+
 function ImageGenerated({ artifact }: { artifact: Artifact }) {
-  const [url, setUrl] = useState<string | null>(null)
+  const [url, setUrl] = useState<string | null>(() => generatedImageCache.get(artifact.identifier) ?? null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    if (generatedImageCache.has(artifact.identifier)) {
+      setUrl(generatedImageCache.get(artifact.identifier)!)
+      return
+    }
     setUrl(null)
     setError(null)
     fetch('/api/generate', {
@@ -148,7 +154,10 @@ function ImageGenerated({ artifact }: { artifact: Artifact }) {
       body: JSON.stringify({ prompt: artifact.content }),
     })
       .then(r => r.ok ? r.json() : r.text().then(t => Promise.reject(t)))
-      .then((data: { url: string }) => setUrl(data.url))
+      .then((data: { url: string }) => {
+        generatedImageCache.set(artifact.identifier, data.url)
+        setUrl(data.url)
+      })
       .catch(e => setError(String(e)))
   }, [artifact.identifier])
 

@@ -365,17 +365,19 @@ export function ChatPage() {
   }
 
   const chatInput = (
-    <ChatInput
-      value={input}
-      onChange={handleInputChange}
-      onSubmit={handleSubmit}
-      disabled={streaming}
-      hasMessages={true}
-      onVoiceMode={enterVoiceMode}
-      attachedImage={pendingImage}
-      onImageAttach={handleImageAttach}
-      onImageRemove={() => setPendingImage(null)}
-    />
+    <div className="pr-6">
+      <ChatInput
+        value={input}
+        onChange={handleInputChange}
+        onSubmit={handleSubmit}
+        disabled={streaming}
+        hasMessages={true}
+        onVoiceMode={enterVoiceMode}
+        attachedImage={pendingImage}
+        onImageAttach={handleImageAttach}
+        onImageRemove={() => setPendingImage(null)}
+      />
+    </div>
   )
 
   const messageList = (
