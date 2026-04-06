@@ -146,19 +146,25 @@ function ImageGenerated({ artifact }: { artifact: Artifact }) {
       setUrl(generatedImageCache.get(artifact.identifier)!)
       return
     }
+    const controller = new AbortController()
     setUrl(null)
     setError(null)
     fetch('/api/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt: artifact.content }),
+      signal: controller.signal,
     })
       .then(r => r.ok ? r.json() : r.text().then(t => Promise.reject(t)))
       .then((data: { url: string }) => {
         generatedImageCache.set(artifact.identifier, data.url)
         setUrl(data.url)
       })
-      .catch(e => setError(String(e)))
+      .catch(e => {
+        if (e instanceof Error && e.name === 'AbortError') return
+        setError(String(e))
+      })
+    return () => controller.abort()
   }, [artifact.identifier])
 
   return (

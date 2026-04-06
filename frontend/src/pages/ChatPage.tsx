@@ -58,8 +58,8 @@ function filterStreamingContent(text: string): string {
   return text
     .replace(/<thinking>[\s\S]*?<\/thinking>/gi, '')
     .replace(/<thinking>[\s\S]*$/, '')
-    .replace(/<antArtifact[\s\S]*?<\/antArtifact>/gi, '')
-    .replace(/<antArtifact[\s\S]*$/, '')
+    .replace(/<(?:ant)?[Aa]rtifact[\s\S]*?<\/(?:ant)?[Aa]rtifact>/gi, '')
+    .replace(/<(?:ant)?[Aa]rtifact[\s\S]*$/, '')
     .replace(/<function_calls>[\s\S]*?<\/function_calls>/gi, '')
     .replace(/<function_calls>[\s\S]*$/, '')
     .trim()
@@ -223,6 +223,17 @@ export function ChatPage() {
     }
   }, [streaming])
 
+  // Safety net: if streaming just ended and the last message is an empty assistant placeholder,
+  // remove it and show a banner — catches any silent failure path
+  useEffect(() => {
+    if (streaming) return
+    const last = messages[messages.length - 1]
+    if (last?.role === 'assistant' && !last.content && !last.artifact) {
+      setMessages(prev => prev.slice(0, -1))
+      showBanner('Something went wrong — please try again')
+    }
+  }, [streaming, messages])
+
   async function handleSubmit() {
     const trimmed = input.trim()
     if (!trimmed || streaming) return
@@ -287,6 +298,7 @@ export function ChatPage() {
       const reader = res.body!.getReader()
       const decoder = new TextDecoder()
       let buf = ''
+      let doneReceived = false
 
       while (true) {
         const { done, value } = await reader.read()
@@ -314,6 +326,7 @@ export function ChatPage() {
               return updated
             })
           } else if (parsed.type === 'done') {
+            doneReceived = true
             setMessages(prev => {
               const updated = [...prev]
               const last = updated[updated.length - 1]
@@ -335,6 +348,31 @@ export function ChatPage() {
           }
         }
       }
+
+      // Stream closed without a done event (network drop, silent server failure, etc.)
+      // Run the same cleanup so content isn't silently swallowed.
+      if (!doneReceived) {
+        let hasContent = false
+        setMessages(prev => {
+          const updated = [...prev]
+          const last = updated[updated.length - 1]
+          if (last.role !== 'assistant') return updated
+          const stripped = last.content
+            .replace(/<thinking>[\s\S]*?<\/thinking>/gi, '')
+            .replace(/<thinking>[\s\S]*$/, '')
+            .trim()
+          if (!stripped) {
+            updated.pop()
+            return updated
+          }
+          hasContent = true
+          const { cleanText, artifact } = parseArtifact(stripped)
+          updated[updated.length - 1] = { ...last, content: cleanText, artifact: artifact ?? undefined }
+          if (artifact) setActiveArtifact(resolveArtifact(artifact, updated))
+          return updated
+        })
+        if (!hasContent) showBanner('Something went wrong — please try again')
+      }
     } catch (err) {
       const errMsg = err instanceof Error ? err.message : String(err)
       showBanner(parseBannerMessage(errMsg))
@@ -351,7 +389,7 @@ export function ChatPage() {
   }
 
   const lastContent = messages[messages.length - 1]?.content ?? ''
-  const isGeneratingArtifact = streaming && lastContent.includes('<antArtifact')
+  const isGeneratingArtifact = streaming && (lastContent.includes('<antArtifact') || lastContent.includes('<artifact'))
   const showRightPanel = activeArtifact !== null || isGeneratingArtifact
 
   const enterVoiceMode = () => {

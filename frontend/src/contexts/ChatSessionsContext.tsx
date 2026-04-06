@@ -33,7 +33,23 @@ export function ChatSessionsProvider({ children }: { children: React.ReactNode }
   const [sessions, setSessions] = useState<ChatSession[]>(loadSessions)
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions))
+    // Strip image blobs before persisting — base64 data URLs blow the quota
+    const toSave = sessions.map(s => ({
+      ...s,
+      messages: s.messages.map(m => ({
+        ...m,
+        imageData: undefined,
+        imagePreview: undefined,
+      })),
+    }))
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave))
+    } catch {
+      // Still over quota (large artifact content) — evict oldest sessions and retry
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave.slice(0, 5)))
+      } catch { /* give up — don't crash */ }
+    }
   }, [sessions])
 
   function addSession(id: string, title: string) {

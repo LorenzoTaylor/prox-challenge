@@ -1,6 +1,6 @@
 import type { Artifact, ArtifactType } from '../types'
 
-const ARTIFACT_REGEX = /<antArtifact\s([^>]*)>([\s\S]*?)<\/antArtifact>/i
+const ARTIFACT_REGEX = /<(?:ant)?[Aa]rtifact\s([^>]*)>([\s\S]*?)<\/(?:ant)?[Aa]rtifact>/i
 // <function_calls><invoke name="antArtifact"><parameter name="...">val</parameter>...</invoke></function_calls>
 const INVOKE_REGEX = /<function_calls>\s*<invoke\s+name="antArtifact">([\s\S]*?)<\/invoke>\s*<\/function_calls>/i
 
@@ -52,6 +52,13 @@ export function parseArtifact(text: string): { cleanText: string; artifact: Arti
       cleanText: text.replace(fullMatch, '').trim(),
       artifact: { identifier, type, title, content, language, src },
     }
+  }
+
+  // Detect a truncated artifact — opening tag present but no closing tag.
+  // Return empty cleanText so the caller can show a banner instead of raw XML.
+  const OPEN_TAG = /<(?:ant)?[Aa]rtifact[\s>]/
+  if (OPEN_TAG.test(text)) {
+    return { cleanText: '', artifact: null }
   }
 
   return { cleanText: text, artifact: null }
