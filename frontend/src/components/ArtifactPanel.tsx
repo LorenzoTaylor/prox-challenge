@@ -37,15 +37,16 @@ function ImageSurface({ artifact }: { artifact: Artifact }) {
 
       for (const ann of annotations) {
         const tx = ann.x * canvas.width   // target point
-        const ty = ann.y * canvas.height
+        const yAdj = ann.y > 0.8 ? ann.y - 0.05 : ann.y  // model runs ~5% low near the bottom edge
+        const ty = yAdj * canvas.height
         const r = 13
         const offset = 44
 
-        // Push badge away from image center so it never obscures the target
+        // Push badge away from the nearest edge so it stays visible
         const pushRight = ann.x >= 0.5
         const pushDown = ann.y >= 0.5
         const bx = tx + (pushRight ? offset : -offset)
-        const by = ty + (pushDown ? offset : -offset)
+        const by = ty + (pushDown ? -offset : offset)
 
         // Crosshair at target point
         const ch = 7
