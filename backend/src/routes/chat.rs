@@ -79,6 +79,8 @@ async fn stream_chat(
     req: ChatRequest,
     tx: &mpsc::Sender<Result<Event, Infallible>>,
 ) -> anyhow::Result<()> {
+    let t0 = std::time::Instant::now();
+
     // Build Anthropic messages array.
     // PDF page images are injected as content blocks in the first user message.
     let mut messages: Vec<Value> = Vec::new();
@@ -89,8 +91,10 @@ async fn stream_chat(
         .map(|m| m.content.as_str())
         .unwrap_or("");
 
-    let relevant = state.relevant_images(last_user_query, 3);
-    eprintln!("Injecting {} relevant page images for query: {:?}", relevant.len(), &last_user_query[..last_user_query.len().min(60)]);
+    let relevant = state.relevant_images(last_user_query, 1);
+    eprintln!("[{:>5}ms] image scoring done — {} page(s) matched for: {:?}",
+        t0.elapsed().as_millis(), relevant.len(),
+        &last_user_query[..last_user_query.len().min(60)]);
 
     for (i, msg) in req.messages.iter().enumerate() {
         let has_pdf_pages = i == 0 && msg.role == "user" && !relevant.is_empty();
@@ -149,8 +153,11 @@ async fn stream_chat(
         "messages": messages
     });
 
-    let client = reqwest::Client::new();
-    let response = client
+    eprintln!("[{:>5}ms] sending request to Anthropic (payload ~{}KB)",
+        t0.elapsed().as_millis(),
+        serde_json::to_string(&body).map(|s| s.len() / 1024).unwrap_or(0));
+
+    let response = state.http_client
         .post("https://api.anthropic.com/v1/messages")
         .header("x-api-key", &state.api_key)
         .header("anthropic-version", "2023-06-01")
@@ -158,6 +165,8 @@ async fn stream_chat(
         .json(&body)
         .send()
         .await?;
+
+    eprintln!("[{:>5}ms] Anthropic responded — status {}", t0.elapsed().as_millis(), response.status());
 
     if !response.status().is_success() {
         let status = response.status();
@@ -173,6 +182,7 @@ async fn stream_chat(
     let mut line_buf: Vec<u8> = Vec::new();
     let mut current_event = String::new();
     let mut current_data = String::new();
+    let mut first_token = true;
 
     while let Some(chunk_result) = byte_stream.next().await {
         let chunk = chunk_result?;
@@ -189,6 +199,10 @@ async fn stream_chat(
                             if parsed["delta"]["type"] == "text_delta" {
                                 if let Some(text) = parsed["delta"]["text"].as_str() {
                                     if !text.is_empty() {
+                                        if first_token {
+                                            eprintln!("[{:>5}ms] first token", t0.elapsed().as_millis());
+                                            first_token = false;
+                                        }
                                         let data =
                                             json!({"type": "delta", "text": text}).to_string();
                                         if tx.send(Ok(Event::default().data(data))).await.is_err() {
@@ -199,6 +213,7 @@ async fn stream_chat(
                             }
                         }
                     } else if current_event == "message_stop" {
+                        eprintln!("[{:>5}ms] stream complete", t0.elapsed().as_millis());
                         let data = json!({"type": "done"}).to_string();
                         let _ = tx.send(Ok(Event::default().data(data))).await;
                         return Ok(());

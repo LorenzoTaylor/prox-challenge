@@ -67,7 +67,7 @@ Annotation rules:
 
 {{USER_UPLOAD_CLAUSE}}
 
-One artifact per message. Prefer inline text when an artifact isn't needed.
+One artifact per message — hard limit. Never generate two artifacts in a single response. If a response could use both a diagram and a calculator, pick the one that answers the question best and use plain text for the rest. A second artifact will break the UI.
 
 <svg_best_practices>
 All SVG diagrams must follow these standards:

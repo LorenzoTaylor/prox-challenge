@@ -61,6 +61,8 @@ pub struct AppState {
     pub images: Vec<PageImage>,
     pub page_meta: Vec<PageMeta>,
     pub structured_facts: Option<String>,
+    /// Shared HTTP client — reuses connections and TLS sessions across requests.
+    pub http_client: reqwest::Client,
     /// Max 2 in-flight requests at once.
     pub semaphore: Arc<Semaphore>,
     /// Lifetime request counter — hard cap for demo cost control.
@@ -327,6 +329,7 @@ async fn main() -> anyhow::Result<()> {
         images,
         page_meta,
         structured_facts,
+        http_client: reqwest::Client::new(),
         semaphore: Arc::new(Semaphore::new(2)),
         request_count: Arc::new(AtomicU32::new(0)),
         rate_limiter: Arc::new(RateLimiter::new(10)),

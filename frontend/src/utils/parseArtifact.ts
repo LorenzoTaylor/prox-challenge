@@ -28,8 +28,13 @@ export function parseArtifact(text: string): { cleanText: string; artifact: Arti
     if (!type) return { cleanText: text, artifact: null }
     if (type !== 'image/surface' && !content.trim()) return { cleanText: text, artifact: null }
 
+    const cleanText = text.replace(fullMatch, '')
+      .replace(/<(?:ant)?[Aa]rtifact[\s\S]*?<\/(?:ant)?[Aa]rtifact>/gi, '')
+      .replace(/<(?:ant)?[Aa]rtifact[\s\S]*$/, '')
+      .trim()
+
     return {
-      cleanText: text.replace(fullMatch, '').trim(),
+      cleanText,
       artifact: { identifier, type, title, content: content.trim(), language, src },
     }
   }

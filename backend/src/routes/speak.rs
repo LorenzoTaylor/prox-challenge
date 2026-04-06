@@ -106,8 +106,7 @@ async fn speak_handler(
         "https://api.elevenlabs.io/v1/text-to-speech/{DEFAULT_VOICE_ID}?output_format=mp3_44100_128"
     );
 
-    let client = reqwest::Client::new();
-    let result = client
+    let result = state.http_client
         .post(&url)
         .header("xi-api-key", eleven_key)
         .header("content-type", "application/json")

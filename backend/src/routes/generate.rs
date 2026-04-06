@@ -75,8 +75,7 @@ async fn generate_handler(
     );
 
     // Always use the /edit endpoint with the real machine photos as reference
-    let client = reqwest::Client::new();
-    let response = client
+    let response = state.http_client
         .post("https://fal.run/fal-ai/nano-banana-pro/edit")
         .header("Authorization", format!("Key {fal_key}"))
         .json(&serde_json::json!({
