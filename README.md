@@ -2,6 +2,18 @@
 
 A multimodal reasoning agent for the Vulcan OmniPro 220 welder. Ask it anything about setup, polarity, duty cycles, or troubleshooting and it responds with the right medium: interactive calculators, annotated manual pages, SVG diagrams, or plain text depending on what the question actually needs.
 
+**Live demo:** https://prox-challenge-production-9f29.up.railway.app/
+
+---
+
+## Walkthrough
+
+**Implementation walkthrough**
+https://youtu.be/vsF_So6OMGY
+
+**System design walkthrough**
+https://youtu.be/8DvKuv5zvzA
+
 ---
 
 ## Features
